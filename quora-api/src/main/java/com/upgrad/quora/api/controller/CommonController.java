@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/")
 public class CommonController {
     @RequestMapping("/userprofile/{userId}")
-    public ResponseEntity<UserDetailsResponse> userProfile(@PathVariable("userId") final ){
+    public ResponseEntity<UserDetailsResponse> userProfile(){
 
     }
 }
