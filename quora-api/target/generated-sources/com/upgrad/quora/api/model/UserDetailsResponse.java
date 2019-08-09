@@ -13,9 +13,13 @@ import javax.validation.constraints.*;
  * UserDetailsResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-08-08T22:42:04.224+05:30")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-08-09T16:19:13.318+05:30")
 
 public class UserDetailsResponse   {
+
+  @JsonProperty("id")
+  private String id = null;
+
   @JsonProperty("first_name")
   private String firstName = null;
 
@@ -39,6 +43,27 @@ public class UserDetailsResponse   {
 
   @JsonProperty("contact_number")
   private String contactNumber = null;
+
+  public UserDetailsResponse id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Unique identifier of the user in a standard UUID format
+   * @return id
+   **/
+  @ApiModelProperty(required = true, value = "Unique identifier of the user in a standard UUID format")
+  @NotNull
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public UserDetailsResponse firstName(String firstName) {
     this.firstName = firstName;

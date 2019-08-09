@@ -2,6 +2,7 @@ package com.upgrad.quora.service.common.dao;
 
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
+import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -24,6 +25,16 @@ public class UserDao {
             return entityManager.createNamedQuery("userByEmail", UserEntity.class)
                     .setParameter("email", email).getSingleResult();
         } catch (NoResultException exc) {
+            return null;
+        }
+
+    }
+
+    public UserEntity getUserById(final String uuid) {
+        try {
+            return entityManager.createNamedQuery("userById", UserEntity.class)
+                    .setParameter("uuid", uuid).getSingleResult();
+        } catch (Exception exc) {
             return null;
         }
 
