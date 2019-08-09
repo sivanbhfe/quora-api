@@ -22,7 +22,7 @@ public class CommonController {
     @RequestMapping(method = RequestMethod.GET, path="/userprofile/{userId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
    public ResponseEntity<UserDetailsResponse> userProfile(final String uuid){
         final UserEntity userEntity = userDao.getUserById(uuid);
-        UserDetailsResponse userDetailsResponse = new UserDetailsResponse().id(userEntity.getUuid()).firstName(userEntity.getFirstName())
+        UserDetailsResponse userDetailsResponse = new UserDetailsResponse().firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName()).emailAddress(userEntity.getEmail())
                 .contactNumber(userEntity.getContactNumber());
                // .status(UserStatusType.valueOf(UserStatus.getEnum(userEntity.getStatus()).name()));
