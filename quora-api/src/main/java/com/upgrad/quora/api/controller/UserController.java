@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+//Only Signup completed - Signin and Signout pending
+
 @RestController
 @RequestMapping("/signup")
 public class UserController {
