@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "user_auth_tokens", schema = "quora")
+@Table(name = "user_auth", schema = "quora")
 @NamedQueries({
         @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken ")
 })
@@ -22,6 +22,10 @@ public class UserAuthTokenEntity implements Serializable {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "UUID")
+    @Size(max = 64)
+    private String uuid;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
@@ -43,7 +47,7 @@ public class UserAuthTokenEntity implements Serializable {
     @Column(name = "LOGOUT_AT")
     private ZonedDateTime logoutAt;
 
-
+/*
     @Version
     @Column(name="VERSION" , length=19 , nullable = false)
     private Long version;
@@ -63,7 +67,7 @@ public class UserAuthTokenEntity implements Serializable {
 
     @Column(name="MODIFIED_AT")
     private ZonedDateTime modifiedAt;
-
+*/
     public Integer getId() {
         return id;
     }
@@ -111,7 +115,7 @@ public class UserAuthTokenEntity implements Serializable {
     public void setLogoutAt(ZonedDateTime logoutAt) {
         this.logoutAt = logoutAt;
     }
-
+/*
     public Long getVersion() {
         return version;
     }
@@ -151,7 +155,7 @@ public class UserAuthTokenEntity implements Serializable {
     public void setModifiedAt(ZonedDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
-
+*/
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();

@@ -5,12 +5,11 @@ D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\except
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\business\JwtTokenProvider.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\common\UnexpectedException.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\exception\UserNotFoundException.java
-D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\entity\RoleEntity.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\business\SignupBusinessService.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\business\PasswordCryptographyProvider.java
+D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\dao\UserDao.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\common\ErrorCode.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\exception\AuthorizationFailedException.java
-D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\common\dao\UserDao.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\exception\AnswerNotFoundException.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\entity\UserEntity.java
 D:\PGPSD\Project_API\quora-service\src\main\java\com\upgrad\quora\service\ServiceConfiguration.java
