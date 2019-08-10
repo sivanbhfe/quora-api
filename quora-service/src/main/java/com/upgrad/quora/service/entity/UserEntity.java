@@ -16,9 +16,13 @@ import java.time.ZonedDateTime;
 
 @Entity
 @Table(name="users", schema="quora")
-@NamedQueries({
-        @NamedQuery(name = "userById" , query = "select ue from UserEntity ue where ue.UUID = :uuid ")
-})
+@NamedQueries(
+        {
+                @NamedQuery(name = "userByUuid", query = "select u from UserEntity u where u.uuid = :uuid"),
+                @NamedQuery(name = "userByEmail", query = "select u from UserEntity u where u.email =:email")
+        }
+)
+
 public class UserEntity implements Serializable {
 
     @Id
@@ -30,21 +34,17 @@ public class UserEntity implements Serializable {
     @Size(max = 64)
     private String uuid;
 
-    @ManyToOne
-    @JoinColumn(name = "ROLE_ID")
-    private RoleEntity role;
-
-    @Column(name = "FIRST_NAME")
+    @Column(name = "FIRSTNAME")
     @NotNull
     @Size(max = 200)
     private String firstName;
 
-    @Column(name = "LAST_NAME")
+    @Column(name = "LASTNAME")
     @NotNull
     @Size(max = 200)
     private String lastName;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USERNAME")
     @NotNull
     @Size(max = 200)
     private String userName;
@@ -58,41 +58,43 @@ public class UserEntity implements Serializable {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "country")
-    @NotNull
-    @Size(max = 50)
-    private String country;
-
-    @Column(name = "aboutme")
-    @NotNull
-    @Size(max = 200)
-    private String aboutme;
-
-    @Column(name = "dob")
-    @NotNull
-    @Size(max = 200)
-    private String dob;
-
-    @Column(name = "contact_number")
-    @NotNull
-    @Size(max = 50)
-    private String contactNumber;
-
     @Column(name = "SALT")
     @NotNull
     @Size(max = 200)
     //@ToStringExclude
     private String salt;
 
+    @Column(name = "COUNTRY")
+    @NotNull
+    @Size(max = 50)
+    private String country;
+
+    @Column(name = "ABOUTME")
+    @NotNull
+    @Size(max = 200)
+    private String aboutme;
+
+    @Column(name = "DOB")
+    @NotNull
+    @Size(max = 200)
+    private String dob;
+
+    @Column(name="ROLE")
+    @Size(max = 50)
+    private String role;
+
+    @Column(name = "CONTACTNUMBER")
+    @NotNull
+    @Size(max = 50)
+    private String contactNumber;
+/*
     @Version
     @Column(name="VERSION" , length=19 , nullable = false)
     private Long version;
 
-
     @Column(name="CREATED_BY")
     @NotNull
     private String createdBy;
-
 
     @Column(name="CREATED_AT")
     @NotNull
@@ -118,13 +120,7 @@ public class UserEntity implements Serializable {
     @Column(name = "STATUS")
     @NotNull
     private int status;
-
-
-    @Override
-    public boolean equals(Object obj) {
-        return new EqualsBuilder().append(this, obj).isEquals();
-    }
-
+*/
     public Integer getId() {
         return id;
     }
@@ -141,24 +137,12 @@ public class UserEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    public RoleEntity getRole() { return role; }
-
-    public void setRole(RoleEntity role) { this.role = role; }
-
-    public String getEmail() {
-        return email;
+    public String getRole() {
+        return role;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getFirstName() {
@@ -177,44 +161,60 @@ public class UserEntity implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getAboutme() {
+        return aboutme;
+    }
+
+    public void setAboutme(String aboutme) {
+        this.aboutme = aboutme;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
     public String getContactNumber() {
         return contactNumber;
     }
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getFailedLoginCount() {
-        return failedLoginCount;
-    }
-
-    public void setFailedLoginCount(int failedLoginCount) {
-        this.failedLoginCount = failedLoginCount;
-    }
-
-    public ZonedDateTime getLastPasswordChangeAt() {
-        return lastPasswordChangeAt;
-    }
-
-    public void setLastPasswordChangeAt(ZonedDateTime lastPasswordChangeAt) {
-        this.lastPasswordChangeAt = lastPasswordChangeAt;
-    }
-
-    public ZonedDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public void setLastLoginAt(ZonedDateTime lastLoginAt) {
-        this.lastLoginAt = lastLoginAt;
     }
 
     public String getSalt() {
@@ -224,7 +224,7 @@ public class UserEntity implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-
+/*
     public Long getVersion() {
         return version;
     }
@@ -264,6 +264,44 @@ public class UserEntity implements Serializable {
     public void setModifiedAt(ZonedDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
+
+    public int getFailedLoginCount() {
+        return failedLoginCount;
+    }
+
+    public void setFailedLoginCount(int failedLoginCount) {
+        this.failedLoginCount = failedLoginCount;
+    }
+
+    public ZonedDateTime getLastPasswordChangeAt() {
+        return lastPasswordChangeAt;
+    }
+
+    public void setLastPasswordChangeAt(ZonedDateTime lastPasswordChangeAt) {
+        this.lastPasswordChangeAt = lastPasswordChangeAt;
+    }
+
+    public ZonedDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
+    public void setLastLoginAt(ZonedDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+*/
+    @Override
+    public boolean equals(Object obj) {
+        return new EqualsBuilder().append(this, obj).isEquals();
+    }
+
 
     @Override
     public int hashCode() {

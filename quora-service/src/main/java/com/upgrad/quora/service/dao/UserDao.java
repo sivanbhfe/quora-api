@@ -1,4 +1,4 @@
-package com.upgrad.quora.service.common.dao;
+package com.upgrad.quora.service.dao;
 
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
