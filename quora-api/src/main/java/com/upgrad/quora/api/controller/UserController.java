@@ -16,7 +16,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/signup")
 public class UserController {
 
     @Autowired
@@ -30,13 +30,17 @@ public class UserController {
         userEntity.setUuid(UUID.randomUUID().toString());
         userEntity.setFirstName(signupUserRequest.getFirstName());
         userEntity.setLastName(signupUserRequest.getLastName());
+        userEntity.setDob(signupUserRequest.getDob());
+        userEntity.setAboutme(signupUserRequest.getAboutMe());
+        userEntity.setCountry(signupUserRequest.getCountry());
+        userEntity.setUserName(signupUserRequest.getUserName());
         userEntity.setEmail(signupUserRequest.getEmailAddress());
         userEntity.setContactNumber(signupUserRequest.getContactNumber());
         userEntity.setPassword(signupUserRequest.getPassword());
         userEntity.setSalt("1234abc");
-        userEntity.setStatus(4);
-        userEntity.setCreatedAt(ZonedDateTime.now());
-        userEntity.setCreatedBy("api-backend");
+    //    userEntity.setStatus(4);
+    //    userEntity.setCreatedAt(ZonedDateTime.now());
+    //    userEntity.setCreatedBy("api-backend");
 
         final UserEntity createdUserEntity = signupBusinessService.signup(userEntity);
         SignupUserResponse userResponse = new SignupUserResponse().id(createdUserEntity.getUuid()).status("REGISTERED");
