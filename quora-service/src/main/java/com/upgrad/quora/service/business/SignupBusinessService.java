@@ -19,6 +19,8 @@ public class SignupBusinessService {
     public UserEntity signup(UserEntity userEntity){
         String password = userEntity.getPassword();
         String [] encryptedText = cryptographyProvider.encrypt(password);
+        userEntity.setSalt(encryptedText[0]);
+        userEntity.setPassword(encryptedText[1]);
         return userDao.createUser(userEntity);
     }
 }

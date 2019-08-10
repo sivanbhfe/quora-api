@@ -115,47 +115,56 @@ public class UserAuthTokenEntity implements Serializable {
     public void setLogoutAt(ZonedDateTime logoutAt) {
         this.logoutAt = logoutAt;
     }
-/*
-    public Long getVersion() {
-        return version;
+
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+    /*
+        public Long getVersion() {
+            return version;
+        }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+        public void setVersion(Long version) {
+            this.version = version;
+        }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
+        public String getCreatedBy() {
+            return createdBy;
+        }
 
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+        public void setCreatedBy(String createdBy) {
+            this.createdBy = createdBy;
+        }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+        public ZonedDateTime getCreatedAt() {
+            return createdAt;
+        }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+        public void setCreatedAt(ZonedDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
 
-    public ZonedDateTime getModifiedAt() {
-        return modifiedAt;
-    }
+        public String getModifiedBy() {
+            return modifiedBy;
+        }
 
-    public void setModifiedAt(ZonedDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
-*/
+        public void setModifiedBy(String modifiedBy) {
+            this.modifiedBy = modifiedBy;
+        }
+
+        public ZonedDateTime getModifiedAt() {
+            return modifiedAt;
+        }
+
+        public void setModifiedAt(ZonedDateTime modifiedAt) {
+            this.modifiedAt = modifiedAt;
+        }
+    */
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();
