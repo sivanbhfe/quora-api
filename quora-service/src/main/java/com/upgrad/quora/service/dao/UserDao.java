@@ -63,6 +63,7 @@ public class UserDao {
         if(userAuthTokenEntity!=null && userAuthTokenEntity.getLogoutAt()==null && userAuthTokenEntity.getExpiresAt().compareTo(now)>=0){
             Integer userId = userAuthTokenEntity.getUser().getId();
             userAuthTokenEntity.setLogoutAt(now);
+            entityManager.merge(userAuthTokenEntity);
             UserEntity userEntity = entityManager.createNamedQuery("userById", UserEntity.class)
                     .setParameter("id", userId).getSingleResult();
             return userEntity.getUuid();
@@ -72,6 +73,37 @@ public class UserDao {
         }
     }
 
+    public boolean hasUserSignedIn(final String accessToken) {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        if(userAuthTokenEntity!=null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isUserAccessTokenValid(final String accessToken) {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        final ZonedDateTime now = ZonedDateTime.now();
+        if(userAuthTokenEntity.getLogoutAt()==null && userAuthTokenEntity.getExpiresAt().compareTo(now)>=0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isRoleAdmin(final String accessToken) {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        UserEntity userEntity = userAuthTokenEntity.getUser();
+        if(userEntity.getRole()=="admin"){
+            return true;
+        } else {
+            return false;
+        }
+    }
     public void updateUser(final UserEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
     }

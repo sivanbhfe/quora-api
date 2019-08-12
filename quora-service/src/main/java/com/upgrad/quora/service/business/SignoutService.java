@@ -18,4 +18,11 @@ public class SignoutService {
         return userDao.signOut(authorization);
     }
 
+    public boolean hasUserSignedIn (final String authorization)  {
+        return userDao.hasUserSignedIn(authorization);
+    }
+    public boolean isUserAccessTokenValid (final String authorization)  {
+        return userDao.isUserAccessTokenValid(authorization);
+    }
+
 }
