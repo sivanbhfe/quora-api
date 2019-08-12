@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
-
 @Service
 public class AuthenticationService {
 
