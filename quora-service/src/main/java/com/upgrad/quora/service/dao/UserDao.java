@@ -2,12 +2,13 @@ package com.upgrad.quora.service.dao;
 
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
-import com.upgrad.quora.service.exception.UserNotFoundException;
+import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.time.ZonedDateTime;
 
 @Repository
 public class UserDao {
@@ -42,7 +43,7 @@ public class UserDao {
 
     public UserEntity getUserById(final String uuid) {
         try {
-            return entityManager.createNamedQuery("userById", UserEntity.class)
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class)
                     .setParameter("uuid", uuid).getSingleResult();
         } catch (Exception exc) {
             return null;
@@ -55,6 +56,54 @@ public class UserDao {
         return userAuthTokenEntity;
     }
 
+    public String signOut(final String accessToken) throws SignOutRestrictedException {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        final ZonedDateTime now = ZonedDateTime.now();
+        if(userAuthTokenEntity!=null && userAuthTokenEntity.getLogoutAt()==null && userAuthTokenEntity.getExpiresAt().compareTo(now)>=0){
+            Integer userId = userAuthTokenEntity.getUser().getId();
+            userAuthTokenEntity.setLogoutAt(now);
+            entityManager.merge(userAuthTokenEntity);
+            UserEntity userEntity = entityManager.createNamedQuery("userById", UserEntity.class)
+                    .setParameter("id", userId).getSingleResult();
+            return userEntity.getUuid();
+
+        } else {
+            throw new SignOutRestrictedException("SGR-001","User is not Signed in");
+        }
+    }
+
+    public boolean hasUserSignedIn(final String accessToken) {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        if(userAuthTokenEntity!=null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isUserAccessTokenValid(final String accessToken) {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        final ZonedDateTime now = ZonedDateTime.now();
+        if(userAuthTokenEntity.getLogoutAt()==null && userAuthTokenEntity.getExpiresAt().compareTo(now)>=0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isRoleAdmin(final String accessToken) {
+        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                .setParameter("accessToken", accessToken).getSingleResult();
+        UserEntity userEntity = userAuthTokenEntity.getUser();
+        if(userEntity.getRole()=="admin"){
+            return true;
+        } else {
+            return false;
+        }
+    }
     public void updateUser(final UserEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
     }
