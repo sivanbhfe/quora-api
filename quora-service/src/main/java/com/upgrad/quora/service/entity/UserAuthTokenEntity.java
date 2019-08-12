@@ -14,7 +14,9 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "user_auth", schema = "quora")
 @NamedQueries({
-        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken ")
+        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name = "userByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name = "userAuthTokenByUserId", query = "select ut from UserAuthTokenEntity ut where ut.user = :user ")
 })
 public class UserAuthTokenEntity implements Serializable {
 
@@ -115,47 +117,56 @@ public class UserAuthTokenEntity implements Serializable {
     public void setLogoutAt(ZonedDateTime logoutAt) {
         this.logoutAt = logoutAt;
     }
-/*
-    public Long getVersion() {
-        return version;
+
+    public String getAuthUuid() {
+        return uuid;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setAuthUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+    /*
+        public Long getVersion() {
+            return version;
+        }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+        public void setVersion(Long version) {
+            this.version = version;
+        }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
+        public String getCreatedBy() {
+            return createdBy;
+        }
 
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+        public void setCreatedBy(String createdBy) {
+            this.createdBy = createdBy;
+        }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+        public ZonedDateTime getCreatedAt() {
+            return createdAt;
+        }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+        public void setCreatedAt(ZonedDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
 
-    public ZonedDateTime getModifiedAt() {
-        return modifiedAt;
-    }
+        public String getModifiedBy() {
+            return modifiedBy;
+        }
 
-    public void setModifiedAt(ZonedDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
-*/
+        public void setModifiedBy(String modifiedBy) {
+            this.modifiedBy = modifiedBy;
+        }
+
+        public ZonedDateTime getModifiedAt() {
+            return modifiedAt;
+        }
+
+        public void setModifiedAt(ZonedDateTime modifiedAt) {
+            this.modifiedAt = modifiedAt;
+        }
+    */
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();
