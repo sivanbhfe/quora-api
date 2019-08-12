@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
-
 @Service
 public class AuthenticationService {
 
@@ -43,7 +41,7 @@ public class AuthenticationService {
                 userAuthToken.setAccessToken(jwtTokenProvider.generateToken(userEntity.getUuid(), now, expiresAt));
                 userAuthToken.setLoginAt(now);
                 userAuthToken.setExpiresAt(expiresAt);
-                userAuthToken.setUuid(UUID.randomUUID().toString());
+                userAuthToken.setAuthUuid(UUID.randomUUID().toString());
                 userDao.createAuthToken(userAuthToken);
                 userDao.updateUser(userEntity);
                 return userAuthToken;

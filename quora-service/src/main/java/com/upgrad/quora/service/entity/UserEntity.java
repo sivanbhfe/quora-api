@@ -6,21 +6,19 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 
 @Entity
 @Table(name="users", schema="quora")
 @NamedQueries(
         {
                 @NamedQuery(name = "userByUuid", query = "select u from UserEntity u where u.uuid = :uuid"),
+                @NamedQuery(name = "userById", query = "select u from UserEntity u where u.id = :id"),
                 @NamedQuery(name = "userByEmail", query = "select u from UserEntity u where u.email =:email"),
-                @NamedQuery(name = "userByUsername", query = "select u from UserEntity u where u.username =:username")
+                @NamedQuery(name = "userByUsername", query = "select u from UserEntity u where u.username =:username"),
+                @NamedQuery(name = "deleteUserByUuid", query = "delete from UserEntity u where u.uuid = :uuid")
         }
 )
 
