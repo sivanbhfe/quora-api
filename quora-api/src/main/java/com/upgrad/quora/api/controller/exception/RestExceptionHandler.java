@@ -1,6 +1,11 @@
 package com.upgrad.quora.api.controller.exception;
 
+
+import com.upgrad.quora.api.model.AnswerResponse;
 import com.upgrad.quora.api.model.ErrorResponse;
+import com.upgrad.quora.service.exception.AnswerNotFoundException;
+
+
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
