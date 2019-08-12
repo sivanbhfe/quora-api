@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8f322d7-bdce-4f18-b076-c5361a100af9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/exception/RestExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/exception/RestExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/quora-service/target/" />
     <ignored path="$PROJECT_DIR$/quora-db/target/" />
@@ -35,22 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
-              <caret line="67" selection-start-line="67" selection-end-line="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="53" column="49" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="49" />
+            <state relative-caret-position="151">
+              <caret line="69" column="86" selection-start-line="69" selection-start-column="86" selection-end-line="69" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -76,23 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticationService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
-              <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
-              <folding>
-                <element signature="e#2443#2444#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="360">
+              <caret line="35" column="50" lean-forward="true" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -100,8 +70,31 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="330">
+              <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="269">
+              <caret line="67" column="30" lean-forward="true" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="532">
+              <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
             </state>
           </provider>
         </entry>
@@ -134,12 +127,12 @@
         <option value="$PROJECT_DIR$/quora-db/src/main/resources/sql/quora.sql" />
         <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignupBusinessService.java" />
         <option value="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/exception/RestExceptionHandler.java" />
+        <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java" />
+        <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticationService.java" />
         <option value="$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java" />
         <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java" />
         <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java" />
         <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java" />
-        <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java" />
-        <option value="$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticationService.java" />
       </list>
     </option>
   </component>
@@ -155,8 +148,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -383,9 +376,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.upgrad.quora.service.business" />
       <recent name="com.upgrad.quora.service.entity" />
       <recent name="com.upgrad.quora.service.dao" />
+      <recent name="com.upgrad.quora.service.business" />
       <recent name="com.upgrad.quora.api.controller" />
       <recent name="com.upgrad.quora.api.controller.exception" />
     </key>
@@ -438,18 +431,19 @@
       <workItem from="1565432875508" duration="5756000" />
       <workItem from="1565533802825" duration="4923000" />
       <workItem from="1565570738653" duration="1453000" />
-      <workItem from="1565626071040" duration="1093000" />
+      <workItem from="1565626071040" duration="1716000" />
+      <workItem from="1565630485325" duration="3676000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27763000" />
+    <option name="totallyTimeSpent" value="32062000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.34699854" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23718888" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -459,7 +453,7 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32843137" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -635,16 +629,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignupBusinessService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/exception/RestExceptionHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -652,37 +636,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java">
+    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignupBusinessService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="53" column="49" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+        <state relative-caret-position="255">
+          <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
           <folding>
-            <element signature="e#2443#2444#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>
@@ -695,8 +655,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/AuthenticationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
+        <state relative-caret-position="360">
+          <caret line="35" column="50" lean-forward="true" selection-start-line="35" selection-start-column="50" selection-end-line="35" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quora-api/src/main/java/com/upgrad/quora/api/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="69" column="86" selection-start-line="69" selection-start-column="86" selection-end-line="69" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/business/SignoutService.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/entity/UserAuthTokenEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="67" column="30" lean-forward="true" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quora-service/src/main/java/com/upgrad/quora/service/dao/UserDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
         </state>
       </provider>
     </entry>
