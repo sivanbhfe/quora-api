@@ -3,6 +3,7 @@ package com.upgrad.quora.service.dao;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -56,7 +57,7 @@ public class UserDao {
         return userAuthTokenEntity;
     }
 
-    public String signOut(final String accessToken) throws SignOutRestrictedException {
+    public String signOut(final String accessToken) throws SignOutRestrictedException{
         UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
                 .setParameter("accessToken", accessToken).getSingleResult();
         final ZonedDateTime now = ZonedDateTime.now();
@@ -98,7 +99,7 @@ public class UserDao {
         UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
                 .setParameter("accessToken", accessToken).getSingleResult();
         UserEntity userEntity = userAuthTokenEntity.getUser();
-        if(userEntity.getRole()=="admin"){
+        if(userEntity.getRole().equalsIgnoreCase("admin")){
             return true;
         } else {
             return false;
