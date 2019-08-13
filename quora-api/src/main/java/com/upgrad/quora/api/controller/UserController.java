@@ -11,6 +11,7 @@ import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -40,14 +41,17 @@ public class UserController {
     @Autowired
     private SignoutService signoutService;
 
-    @RequestMapping(name="/user/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
+    //Signup function
+    @RequestMapping(path="/user/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
     ,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest){
+    public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest)
+            throws SignUpRestrictedException {
         final UserEntity userEntity = new UserEntity();
         userEntity.setUuid(UUID.randomUUID().toString());
         userEntity.setFirstName(signupUserRequest.getFirstName());
         userEntity.setLastName(signupUserRequest.getLastName());
         userEntity.setDob(signupUserRequest.getDob());
+        userEntity.setRole("nonadmin");
         userEntity.setAboutme(signupUserRequest.getAboutMe());
         userEntity.setCountry(signupUserRequest.getCountry());
         userEntity.setUserName(signupUserRequest.getUserName());
@@ -55,15 +59,12 @@ public class UserController {
         userEntity.setContactNumber(signupUserRequest.getContactNumber());
         userEntity.setPassword(signupUserRequest.getPassword());
         userEntity.setSalt("1234abc");
-    //    userEntity.setStatus(4);
-    //    userEntity.setCreatedAt(ZonedDateTime.now());
-    //    userEntity.setCreatedBy("api-backend");
-
         final UserEntity createdUserEntity = signupBusinessService.signup(userEntity);
         SignupUserResponse userResponse = new SignupUserResponse().id(createdUserEntity.getUuid()).status("REGISTERED");
         return new ResponseEntity<SignupUserResponse>(userResponse, HttpStatus.CREATED);
     }
 
+    //Signin function
     @RequestMapping(method= RequestMethod.POST, path="/user/signin", produces= MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> login (@RequestHeader("authentication") final String authentication)
             throws UserNotFoundException, AuthenticationFailedException {
@@ -81,15 +82,13 @@ public class UserController {
         return new ResponseEntity<SigninResponse>(signinResponse,headers,HttpStatus.OK);
     }
 
+    //Signout function
     @RequestMapping(method= RequestMethod.POST, path="/user/signout", produces= MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signout (@RequestHeader("authorization") final String authorization)
             throws SignOutRestrictedException {
         String Uuid = signoutService.signOut(authorization);
         SignoutResponse signoutResponse = new SignoutResponse().id(Uuid)
                 .message("SIGNED OUT SUCCESSFULLY");
-
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("access-token", userAuthToken.getAccessToken());
         return new ResponseEntity<SignoutResponse>(signoutResponse,HttpStatus.OK);
     }
 
