@@ -24,9 +24,8 @@ public class AdminDao {
         String deletedUserUuid = uuid;
         if(deletedUserEntity!=null) {
             Integer deletedUserId = deletedUserEntity.getId();
-            UserAuthTokenEntity deletedUserAuthToken = entityManager.createNamedQuery("userAuthTokenByUserId", UserAuthTokenEntity.class)
-                    .setParameter("user", deletedUserEntity).getSingleResult();
-            entityManager.remove(deletedUserAuthToken);
+            //Running remove only on UserEntity
+            // All other related table entries will be deleted by @OnDelete annotation function defined for all foregin key fields
             entityManager.remove(deletedUserEntity);
 
             return deletedUserUuid;
