@@ -27,7 +27,7 @@ public class AdminService {
 
         if (userDao.isRoleAdmin(authorization)) {
             UserEntity userEntity = userDao.getUserById(userUuid);
-            if(userEntity.getUuid()== null){
+            if(userEntity==null){
                 throw new UserNotFoundException("USR-001","User with the entered Uuid to be deleted does not exist");
             } else {
                 return adminDao.deleteUser(userUuid);
