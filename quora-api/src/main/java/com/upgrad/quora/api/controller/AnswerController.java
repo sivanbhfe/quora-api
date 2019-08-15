@@ -2,6 +2,7 @@ package com.upgrad.quora.api.controller;
 
 import com.upgrad.quora.api.model.*;
 import com.upgrad.quora.service.business.AnswerService;
+import com.upgrad.quora.service.business.AuthorizationService;
 import com.upgrad.quora.service.business.QuestionService;
 import com.upgrad.quora.service.business.SignupBusinessService;
 import com.upgrad.quora.service.entity.Answer;
@@ -29,22 +30,18 @@ public class AnswerController {
 
     @Autowired
     AnswerService answerService;
+
     @Autowired
+    private AuthorizationService authorizationService;
+    @Autowired
+
     QuestionService questionService;
 
-    @Autowired
-    SignupBusinessService signupBusinessService;
-
-
-    @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionUuId, @RequestHeader final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
-        UserAuthTokenEntity Userauthorized;
-        try {
-            Userauthorized = signupBusinessService.getUserByAccessToken(authorization);
-        }catch(AuthorizationFailedException authFE){
-            ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-            return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
-        }
+        if (authorizationService.hasUserSignedIn(authorization)) {
+            if (authorizationService.isUserAccessTokenValid(authorization)) {
+                UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
         Question question ;
         try {
             question = questionService.getQuestionForUuId(questionUuId);
@@ -60,31 +57,29 @@ public class AnswerController {
         answer.setQuestion(question);
         answer.setAnswer(answerRequest.getAnswer());
         answer.setUuid(UUID.randomUUID().toString());
-        answer.setUser(Userauthorized.getUser());
+        answer.setUser(userAuthTokenEntity.getUser());
         ZonedDateTime now = ZonedDateTime.now();
         answer.setDate(now);
         Answer createdAnswer = answerService.createAnswer(answer);
 
         AnswerResponse answerResponse = new AnswerResponse().id(createdAnswer.getUuid()).status("ANSWER CREATED");
         return new ResponseEntity<AnswerResponse>(answerResponse, HttpStatus.CREATED);
+    } else {
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
+        } else {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
     }
-
-
 
     @RequestMapping(method = RequestMethod.PUT, path = "/answer/edit/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> editAnswerContent(AnswerEditRequest answerEditRequest, @PathVariable("answerId") final String answerUuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
-        UserAuthTokenEntity Userauthorized;
-        try {
-            Userauthorized = signupBusinessService.getUserByAccessToken(authorization);
-        }catch(AuthorizationFailedException authFE){
-            ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-            return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
-        }
-
-
+        if (authorizationService.hasUserSignedIn(authorization)) {
+            if (authorizationService.isUserAccessTokenValid(authorization)) {
+                UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
         Answer answer;
         try {
-            answer = answerService.isUserAnswerOwner(answerUuId, Userauthorized, ActionType.EDIT_ANSWER);
+            answer = answerService.isUserAnswerOwner(answerUuId, userAuthTokenEntity, ActionType.EDIT_ANSWER);
         }catch(AuthorizationFailedException authFE){
             ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
             return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
@@ -100,49 +95,49 @@ public class AnswerController {
                 .id(answerUuId)
                 .status("ANSWER EDITED");
         return new ResponseEntity<AnswerEditResponse>(answerEditResponse, HttpStatus.OK);
+    } else {
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
+        } else {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
     }
 
 
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/answer/delete/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> deleteAnswer(@PathVariable("answerId") final String answerUuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
-
-        UserAuthTokenEntity Userauthorized;
-        try {
-            Userauthorized = signupBusinessService.getUserByAccessToken(authorization);
-        }catch(AuthorizationFailedException authFE){
-            ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-            return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
-        }
-
+        if (authorizationService.hasUserSignedIn(authorization)) {
+            if (authorizationService.isUserAccessTokenValid(authorization)) {
+                UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
         Answer answer;
         try {
-            answer = answerService.isUserAnswerOwner(answerUuId, Userauthorized, ActionType.DELETE_ANSWER);
+            answer = answerService.isUserAnswerOwner(answerUuId, userAuthTokenEntity, ActionType.DELETE_ANSWER);
         }catch(AuthorizationFailedException authFE){
-            ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-            return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+            throw new AuthorizationFailedException("ATHR-003","Only the answer owner or admin can delete the answer");
         }catch(AnswerNotFoundException aNFE){
-            ErrorResponse errorResponse = new ErrorResponse().message(aNFE.getErrorMessage()).code(aNFE.getCode()).rootCause(aNFE.getMessage());
-            return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
+            throw new AnswerNotFoundException("ANS-001","Entered answer uuid does not exist");
         }
         answerService.deleteAnswer(answer);
         AnswerDeleteResponse answerDeleteResponse = new AnswerDeleteResponse()
                 .id(answerUuId)
                 .status("ANSWER DELETED");
         return new ResponseEntity<AnswerDeleteResponse>(answerDeleteResponse, HttpStatus.OK);
+    } else {
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
+        } else {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
     }
+
 
 
     @RequestMapping(method = RequestMethod.GET, path = "/answer/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getAllAnswersToQuestion(@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException, AnswerNotFoundException {
-
-        UserAuthTokenEntity Userauthorized;
-        try {
-            Userauthorized = signupBusinessService.getUserByAccessToken(authorization);
-        }catch(AuthorizationFailedException authFE){
-            ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-            return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
-        }
+        if (authorizationService.hasUserSignedIn(authorization)) {
+            if (authorizationService.isUserAccessTokenValid(authorization)) {
+                UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
         List<Answer> answerList;
         try {
             answerList = answerService.getAnswersForQuestion(questionId);
@@ -162,8 +157,13 @@ public class AnswerController {
                 .answerContent(contentBuilder.toString())
                 .questionContent(questionContentValue);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    } else {
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
+        } else {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
     }
-
 
     public static final String getUuIdStringAndQuestionContent(List<Answer> answerList, StringBuilder uuIdBuilder) {
         String questionContent = new String();
