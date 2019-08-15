@@ -24,7 +24,7 @@ public class AdminController {
     private SignoutService signoutService;
 
 
-    @RequestMapping(method = RequestMethod.POST, path = "/admin/user/{userId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = RequestMethod.DELETE, path = "/admin/user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userId") final String uuid, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
 //        System.out.println("TEST");
         if(signoutService.hasUserSignedIn(authorization)) {
