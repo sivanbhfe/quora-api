@@ -76,10 +76,8 @@ public class QuestionController {
         @RequestMapping(method = RequestMethod.GET, path = "/question/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
         public ResponseEntity<?> getAllQuestions ( @RequestHeader final String authorization) throws
         AuthorizationFailedException {
-            if (authorizationService.hasUserSignedIn(authorization)) {
-                if (authorizationService.isUserAccessTokenValid(authorization)) {
-                    List<Question> questionList;
-                    questionList = questionService.getAllQuestions();
+            UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
+                    List<Question> questionList = questionService.getAllQuestions();
                     StringBuilder builder = new StringBuilder();
                     getContentsString(questionList, builder);
                     StringBuilder uuIdBuilder = new StringBuilder();
@@ -88,15 +86,7 @@ public class QuestionController {
                     .id(uuIdBuilder.toString())
                     .content(builder.toString());
             return new ResponseEntity<QuestionDetailsResponse>(questionResponse, HttpStatus.OK);
-        }  else {
-                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
-            }
-        } else {
-        throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
-    }
         }
-
-
 
         //Rest Endpoint method implementation used for getting all questions for any user.Only logged-in user and the owner of the question is allowed to use this endpoint.
 
@@ -104,32 +94,13 @@ public class QuestionController {
         public ResponseEntity<?> editQuestionContent (QuestionEditRequest questionEditRequest,
         @PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws
         AuthorizationFailedException, InvalidQuestionException {
-
-            if (authorizationService.hasUserSignedIn(authorization)) {
-                if (authorizationService.isUserAccessTokenValid(authorization)) {
-                    UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
-                    Question question;
-                    try {
-                        question = questionService.isUserQuestionOwner(questionId, userAuthTokenEntity, ActionType.EDIT_QUESTION);
-                    } catch (InvalidQuestionException iQE) {
-                        ErrorResponse errorResponse = new ErrorResponse().message(iQE.getErrorMessage()).code(iQE.getCode()).rootCause(iQE.getMessage());
-                        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
-                    } catch (AuthorizationFailedException authFE) {
-                        ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-                        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
-                    }
-                    question.setContent(questionEditRequest.getContent());
-                    questionService.editQuestion(question);
-                    QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(question.getUuid()).status("QUESTION EDITED");
-                    return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
-                } else {
-                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
-                }
-            } else {
-                throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
-            }
+            UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
+            Question question = questionService.isUserQuestionOwner(questionId, userAuthTokenEntity, ActionType.EDIT_QUESTION);
+            question.setContent(questionEditRequest.getContent());
+            questionService.editQuestion(question);
+            QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(question.getUuid()).status("QUESTION EDITED");
+            return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
         }
-
 
         //   Rest Endpoint method implementation used for deleting question by question id.Only logged-in user who is owner of the question or admin is allowed to delete a question
 
@@ -137,48 +108,21 @@ public class QuestionController {
         public ResponseEntity<?> userDelete ( @PathVariable("questionId") final String questionUuId,
         @RequestHeader("authorization") final String authorization) throws
         AuthorizationFailedException, InvalidQuestionException {
-
-            if (authorizationService.hasUserSignedIn(authorization)) {
-                if (authorizationService.isUserAccessTokenValid(authorization)) {
-                    UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
-
-            Question question;
-            try {
-                question = questionService.isUserQuestionOwner(questionUuId, userAuthTokenEntity, ActionType.DELETE_QUESTION);
-            } catch (InvalidQuestionException iQE) {
-                ErrorResponse errorResponse = new ErrorResponse().message(iQE.getErrorMessage()).code(iQE.getCode()).rootCause(iQE.getMessage());
-                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
-            } catch (AuthorizationFailedException authFE) {
-                ErrorResponse errorResponse = new ErrorResponse().message(authFE.getErrorMessage()).code(authFE.getCode()).rootCause(authFE.getMessage());
-                return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.FORBIDDEN);
-            }
+            UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
+            Question question = questionService.isUserQuestionOwner(questionUuId, userAuthTokenEntity, ActionType.DELETE_QUESTION);
             questionService.deleteQuestion(question);
             QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse()
                     .id(question.getUuid())
                     .status("QUESTION DELETED");
             return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
-        } else {
-                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
-                }
-            } else {
-                throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
-            }
         }
 
         @RequestMapping(method = RequestMethod.GET, path = "/question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
         public ResponseEntity<?> getAllQuestionsByUser ( @PathVariable("userId") final String uuId,
         @RequestHeader("authorization") final String authorization) throws
         AuthorizationFailedException, UserNotFoundException {
-
-            if (authorizationService.hasUserSignedIn(authorization)) {
-                if (authorizationService.isUserAccessTokenValid(authorization)) {
-                    UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
-            List<Question> questionList;
-            try {
-                questionList = questionService.getQuestionsForUser(uuId);
-            } catch (UserNotFoundException userNFE) {
-                throw new UserNotFoundException("USR-001","User with entered uuid whose question details are to be seen does not exist");
-            }
+            UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
+            List<Question> questionList = questionService.getQuestionsForUser(uuId);
             StringBuilder contentBuilder = new StringBuilder();
             StringBuilder uuIdBuilder = new StringBuilder();
             getContentsString(questionList, contentBuilder);
@@ -188,14 +132,7 @@ public class QuestionController {
                     .content(contentBuilder.toString());
             //return new ResponseEntity<>(questionResponse, HttpStatus.OK);
             return new ResponseEntity<QuestionDetailsResponse>(questionResponse, HttpStatus.OK);
-        } else {
-                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
-                }
-            } else {
-                throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
-            }
         }
-
 
         // private utility method for appending the uuid of questions.
 
