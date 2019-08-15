@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+/*This class implements the userDelete - "/admin/user/{userId}"*/
 @RestController
 @RequestMapping("/")
 public class AdminController {
@@ -23,14 +25,16 @@ public class AdminController {
     @Autowired
     private SignoutService signoutService;
 
-
+/*This end point is used to delete a user from the Quora application if the user has signed in and has valid user access token
+ and has admin role. If any of these conditions are not met with, the corresponding exception is thrown
+ Its a DELETE request. This endpoint requests path variable userId as a string for the corresponding user that needs
+ to be deleted and accesstoken of the signed in user as a String in authorization Request Header
+ It returns the uuid of the user that has been deleted and message in the JSON response with the corresponding HTTP status*/
     @RequestMapping(method = RequestMethod.DELETE, path = "/admin/user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userId") final String uuid, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
-//        System.out.println("TEST");
         if(signoutService.hasUserSignedIn(authorization)) {
             if(signoutService.isUserAccessTokenValid(authorization)) {
                 String UUID = adminService.deleteUser(uuid, authorization);
-                //   System.out.println(userEntity.getUuid());
                 final UserDeleteResponse userDeleteResponse = new UserDeleteResponse().id(UUID).status("USER SUCCESSFULLY DELETED");
                 return new ResponseEntity<UserDeleteResponse>(userDeleteResponse, HttpStatus.OK);
             } else {
