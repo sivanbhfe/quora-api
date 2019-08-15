@@ -29,7 +29,6 @@ public class AdminDao {
             return deletedUserUuid;
         } catch (NullPointerException exc) {
             return null;
-           // throw new UserNotFoundException("USR-001","User with entered uuid to be deleted does not exist");
         }
     }
 
