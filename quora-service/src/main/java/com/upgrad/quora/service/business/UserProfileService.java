@@ -1,6 +1,7 @@
 package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.UserDao;
+import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
@@ -16,11 +17,11 @@ public class UserProfileService {
     private UserDao userDao;
 
     @Autowired
-    private SignoutService signoutService;
+    private AuthorizationService authorizationService;
 
     public UserEntity fetchUser(final String uuid, final String authorization) throws AuthorizationFailedException {
-        if (signoutService.hasUserSignedIn(authorization)) {
-            if (signoutService.isUserAccessTokenValid(authorization)) {
+        if (authorizationService.hasUserSignedIn(authorization)) {
+            if (authorizationService.isUserAccessTokenValid(authorization)) {
                 final UserEntity fetchedUser = userDao.getUserById(uuid);
                 return fetchedUser;
             } else {
@@ -31,4 +32,5 @@ public class UserProfileService {
         }
 
     }
+
 }
