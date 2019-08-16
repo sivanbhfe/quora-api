@@ -1,7 +1,9 @@
 package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.UserDao;
+import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
+import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,4 +38,21 @@ public class SignupBusinessService {
             throw new SignUpRestrictedException("SGR-001","Try any other Username, this Username has already been taken");
         }
     }
-}
+
+    public UserAuthTokenEntity getUserByAccessToken(String authorizationToken) throws AuthorizationFailedException {
+        UserAuthTokenEntity userAuthTokenEntity = userDao.getUserAuthToken(authorizationToken);
+        if (userAuthTokenEntity == null) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
+        if (userAuthTokenEntity.getLogoutAt() != null) {
+            throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to delete a question");
+        }
+        UserEntity userEntity =  userDao.getUserById(userAuthTokenEntity.getAuthUuid());
+        if (userEntity.getRole().equalsIgnoreCase("nonadmin")) {
+            throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+        }
+        return userAuthTokenEntity;
+    }
+
+    }
+
