@@ -24,6 +24,8 @@ public class AdminService {
     /*This method propogates the transaction of deleting the user in the database if the signed in user is an admin
      and the user that has to be deleted has valid accesstoken*/
 
+    /*The annotation @Transactional esatblishs the connection, performs the operation and commits the transaction*/
+
     @Transactional(propagation = Propagation.REQUIRED)
     public String deleteUser(final String userUuid, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
 
