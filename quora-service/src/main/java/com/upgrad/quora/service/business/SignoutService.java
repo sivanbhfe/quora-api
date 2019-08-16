@@ -15,14 +15,13 @@ public class SignoutService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public String signOut (final String authorization) throws SignOutRestrictedException {
-        return userDao.signOut(authorization);
-    }
 
-    public boolean hasUserSignedIn (final String authorization)  {
-        return userDao.hasUserSignedIn(authorization);
-    }
-    public boolean isUserAccessTokenValid (final String authorization)  {
-        return userDao.isUserAccessTokenValid(authorization);
+        //Check if the user has an access token and it is valid
+        if(userDao.hasUserSignedIn(authorization) && userDao.isUserAccessTokenValid(authorization)){
+            return userDao.signOut(authorization);
+        } else {
+            throw new SignOutRestrictedException("SGR-001","User is not Signed in");
+        }
     }
 
 }

@@ -2,8 +2,8 @@ package com.upgrad.quora.service.dao;
 
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
+import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
-import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -17,11 +17,12 @@ public class UserDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    //Persisting user entity
+    //Persisting user entity. Done when the user signs up
     public UserEntity createUser (UserEntity userEntity){
         entityManager.persist(userEntity);
         return userEntity;
     }
+
     public UserEntity getUserByEmail(final String email) {
         try {
             return entityManager.createNamedQuery("userByEmail", UserEntity.class)
@@ -32,6 +33,8 @@ public class UserDao {
 
     }
 
+    //Get user details by user's username
+    //Returns UserEntity
     public UserEntity getUserByUsername(final String username) {
         try {
             return entityManager.createNamedQuery("userByUsername", UserEntity.class)
@@ -42,6 +45,8 @@ public class UserDao {
 
     }
 
+    //Get user details by user UUID
+    //Returns UserEntity
     public UserEntity getUserById(final String uuid) {
         try {
             return entityManager.createNamedQuery("userByUuid", UserEntity.class)
@@ -52,49 +57,72 @@ public class UserDao {
 
     }
 
+    //Creating access token entry when the user signs in
+    //Returns UserAuthTokenEntity
     public UserAuthTokenEntity createAuthToken(final UserAuthTokenEntity userAuthTokenEntity) {
         entityManager.persist(userAuthTokenEntity);
         return userAuthTokenEntity;
     }
 
-    public String signOut(final String accessToken) throws SignOutRestrictedException{
+    //Signout function
+    //Returns UUID of the signed out user
+    public String signOut(final String accessToken) throws SignOutRestrictedException {
         UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
                 .setParameter("accessToken", accessToken).getSingleResult();
         final ZonedDateTime now = ZonedDateTime.now();
-        if(userAuthTokenEntity!=null && userAuthTokenEntity.getLogoutAt()==null && userAuthTokenEntity.getExpiresAt().compareTo(now)>=0){
-            Integer userId = userAuthTokenEntity.getUser().getId();
-            userAuthTokenEntity.setLogoutAt(now);
-            entityManager.merge(userAuthTokenEntity);
-            UserEntity userEntity = entityManager.createNamedQuery("userById", UserEntity.class)
+
+        Integer userId = userAuthTokenEntity.getUser().getId();
+        userAuthTokenEntity.setLogoutAt(now);
+        entityManager.merge(userAuthTokenEntity);
+        UserEntity userEntity = entityManager.createNamedQuery("userById", UserEntity.class)
                     .setParameter("id", userId).getSingleResult();
-            return userEntity.getUuid();
+        return userEntity.getUuid();
+     }
 
-        } else {
-            throw new SignOutRestrictedException("SGR-001","User is not Signed in");
+    //To check if the user with the access token is signed in / access token exists in the table
+    //Returns boolean based on whether the access token is present in the table
+    public boolean hasUserSignedIn(final String accessToken){
+        try {
+            UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                    .setParameter("accessToken", accessToken).getSingleResult();
+                    return true;
+        } catch (NoResultException exception) {
+           return false;
         }
+
     }
 
-    public boolean hasUserSignedIn(final String accessToken) {
-        UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
-                .setParameter("accessToken", accessToken).getSingleResult();
-        if(userAuthTokenEntity!=null){
-            return true;
-        } else {
-            return false;
+    public UserAuthTokenEntity isValidActiveAuthToken(final String accessToken) throws AuthorizationFailedException{
+        try {
+            UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                    .setParameter("accessToken", accessToken).getSingleResult();
+            final ZonedDateTime now = ZonedDateTime.now();
+            if(userAuthTokenEntity.getLogoutAt()==null){
+                return userAuthTokenEntity;
+            } else {
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
+        } catch (NoResultException exception) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
+
     }
 
+    //To check if the user has a valid acces token / access token exists and is valid
+    //Returns boolean based on 2 factors: The expires_at time is greater than current time and LogoutAt is null
     public boolean isUserAccessTokenValid(final String accessToken) {
         UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
                 .setParameter("accessToken", accessToken).getSingleResult();
         final ZonedDateTime now = ZonedDateTime.now();
-        if(userAuthTokenEntity.getLogoutAt()==null && userAuthTokenEntity.getExpiresAt().compareTo(now)>=0){
+        if(userAuthTokenEntity.getLogoutAt()==null){
             return true;
         } else {
             return false;
         }
     }
 
+    //To check if the user corresponding to this access token is has admin role
+    //Return boolean based on the value in the "role" field
     public boolean isRoleAdmin(final String accessToken) {
         UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
                 .setParameter("accessToken", accessToken).getSingleResult();
@@ -105,9 +133,13 @@ public class UserDao {
             return false;
         }
     }
+
+    //Update user details
     public void updateUser(final UserEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
     }
+
+
 
     public UserAuthTokenEntity getUserAuthToken(final String accessToken) {
         try {
