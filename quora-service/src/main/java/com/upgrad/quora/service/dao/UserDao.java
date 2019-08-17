@@ -4,6 +4,9 @@ import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import javax.validation.ConstraintViolationException;
+
+import com.upgrad.quora.service.exception.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -18,9 +21,9 @@ public class UserDao {
     private EntityManager entityManager;
 
     //Persisting user entity. Done when the user signs up
-    public UserEntity createUser (UserEntity userEntity){
-        entityManager.persist(userEntity);
-        return userEntity;
+    public UserEntity createUser (UserEntity userEntity) {
+            entityManager.persist(userEntity);
+            return userEntity;
     }
 
     public UserEntity getUserByEmail(final String email) {
@@ -47,12 +50,12 @@ public class UserDao {
 
     //Get user details by user UUID
     //Returns UserEntity
-    public UserEntity getUserById(final String uuid) {
+    public UserEntity getUserById(final String uuid) throws UserNotFoundException {
         try {
             return entityManager.createNamedQuery("userByUuid", UserEntity.class)
                     .setParameter("uuid", uuid).getSingleResult();
-        } catch (Exception exc) {
-            return null;
+        } catch (NullPointerException exc) {
+            throw new UserNotFoundException("USR-001","User with entered uuid does not exist");
         }
 
     }
@@ -92,6 +95,9 @@ public class UserDao {
 
     }
 
+    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Reason: AdminController has one more check for admin role and Exception messages are slightly different
+    //This implementation for CommonController
     public UserAuthTokenEntity isValidActiveAuthToken(final String accessToken) throws AuthorizationFailedException{
         try {
             UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
@@ -100,7 +106,28 @@ public class UserDao {
             if(userAuthTokenEntity.getLogoutAt()==null){
                 return userAuthTokenEntity;
             } else {
+                //Exception message for CommonController
                 throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+            }
+        } catch (NoResultException exception) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
+
+    }
+
+    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Reason: Exception messages are slightly different
+    //This implementation for AdminController
+    public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String accessToken) throws AuthorizationFailedException{
+        try {
+            UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                    .setParameter("accessToken", accessToken).getSingleResult();
+            final ZonedDateTime now = ZonedDateTime.now();
+            if(userAuthTokenEntity.getLogoutAt()==null){
+                return userAuthTokenEntity;
+            } else {
+                //Exception message for CommonController
+                throw new AuthorizationFailedException("ATHR-002", "User is signed out.");
             }
         } catch (NoResultException exception) {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");

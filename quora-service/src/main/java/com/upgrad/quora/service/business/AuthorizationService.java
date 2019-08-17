@@ -24,12 +24,23 @@ public class AuthorizationService {
         return userDao.isUserAccessTokenValid(authorization);
     }
 
+    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Reason: Exception messages are slightly different
+    //This implementation for CommonController
     public UserAuthTokenEntity isValidActiveAuthToken(final String authorization) throws AuthorizationFailedException{
         return userDao.isValidActiveAuthToken(authorization);
 
     }
 
+    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Reason: Exception messages are slightly different
+    //This implementation for AdminController
+    public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String authorization) throws AuthorizationFailedException{
+        return userDao.isValidActiveAuthTokenForAdmin(authorization);
 
+    }
+
+    //To fetch UserAuthTokenEntity for particular acces token
     public UserAuthTokenEntity fetchAuthTokenEntity(final String authorization) throws AuthorizationFailedException {
         final UserAuthTokenEntity fetchedUserAuthTokenEntity = userDao.getUserAuthToken(authorization);
         return fetchedUserAuthTokenEntity;
