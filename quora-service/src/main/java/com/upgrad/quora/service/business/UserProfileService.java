@@ -21,7 +21,7 @@ public class UserProfileService {
 
     public UserEntity fetchUser(final String uuid, final String authorization)
             throws AuthorizationFailedException, UserNotFoundException {
-        UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthTokenForAdmin(authorization);
+        UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
                 final UserEntity fetchedUser = userDao.getUserById(uuid);
                 return fetchedUser;
             }

@@ -3,6 +3,7 @@ package com.upgrad.quora.service.business;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
+import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,13 @@ public class AuthorizationService {
         return userDao.hasUserSignedIn(authorization);
     }
 
+    /* Created initial for validating access token later combined into other methods
     //To check if the user has a valid acces token / access token exists and is valid
     //Returns boolean based on 2 factors: The expires_at time is greater than current time and LogoutAt is null
     public boolean isUserAccessTokenValid (final String authorization)  {
         return userDao.isUserAccessTokenValid(authorization);
     }
+    */
 
     //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
     //Reason: Exception messages are slightly different
@@ -41,7 +44,7 @@ public class AuthorizationService {
     }
 
     //To fetch UserAuthTokenEntity for particular acces token
-    public UserAuthTokenEntity fetchAuthTokenEntity(final String authorization) throws AuthorizationFailedException {
+    public UserAuthTokenEntity fetchAuthTokenEntity(final String authorization) throws SignOutRestrictedException {
         final UserAuthTokenEntity fetchedUserAuthTokenEntity = userDao.getUserAuthToken(authorization);
         return fetchedUserAuthTokenEntity;
     }

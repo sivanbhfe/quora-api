@@ -54,7 +54,7 @@ public class UserDao {
         try {
             return entityManager.createNamedQuery("userByUuid", UserEntity.class)
                     .setParameter("uuid", uuid).getSingleResult();
-        } catch (NullPointerException exc) {
+        } catch (NoResultException exc) {
             throw new UserNotFoundException("USR-001","User with entered uuid does not exist");
         }
 
@@ -135,6 +135,7 @@ public class UserDao {
 
     }
 
+    /* Created initial for validating access token later combined into other methods
     //To check if the user has a valid acces token / access token exists and is valid
     //Returns boolean based on 2 factors: The expires_at time is greater than current time and LogoutAt is null
     public boolean isUserAccessTokenValid(final String accessToken) {
@@ -147,7 +148,7 @@ public class UserDao {
             return false;
         }
     }
-
+    */
     //To check if the user corresponding to this access token is has admin role
     //Return boolean based on the value in the "role" field
     public boolean isRoleAdmin(final String accessToken) {
@@ -167,13 +168,13 @@ public class UserDao {
     }
 
 
-
-    public UserAuthTokenEntity getUserAuthToken(final String accessToken) {
+    //To fetch UserAuthTokenEntity for particular acces token
+    public UserAuthTokenEntity getUserAuthToken(final String accessToken) throws SignOutRestrictedException {
         try {
             return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthTokenEntity.class)
                     .setParameter("accessToken", accessToken).getSingleResult();
         } catch(NoResultException exc){
-            return null;
+            throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
         }
 
     }
