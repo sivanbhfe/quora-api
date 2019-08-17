@@ -51,9 +51,7 @@ public class QuestionController {
             public ResponseEntity<?> createQuestion(final QuestionRequest questionRequest,
             @RequestHeader final String authorization)
             throws AuthorizationFailedException {
-        if (authorizationService.hasUserSignedIn(authorization)) {
-            if (authorizationService.isUserAccessTokenValid(authorization)) {
-                UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
+                UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
                 UserEntity user = userAuthTokenEntity.getUser();
                 Question question = new Question();
                 question.setUser(userAuthTokenEntity.getUser());
@@ -64,13 +62,7 @@ public class QuestionController {
                 Question createdQuestion = questionService.createQuestion(question);
                 QuestionResponse questionResponse = new QuestionResponse().id(createdQuestion.getUuid()).status("QUESTION CREATED");
                 return new ResponseEntity<QuestionResponse>(questionResponse, HttpStatus.CREATED);
-            } else {
-                throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
-            }
-        } else {
-            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
-    }
         // Rest Endpoint method implementation used for getting all questions for authorized user.Only logged in user is allowed to get the details.
 
         @RequestMapping(method = RequestMethod.GET, path = "/question/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
