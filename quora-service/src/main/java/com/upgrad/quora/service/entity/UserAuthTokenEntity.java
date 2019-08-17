@@ -4,6 +4,9 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,9 +15,11 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "user_auth_tokens", schema = "quora")
+@Table(name = "user_auth", schema = "quora")
 @NamedQueries({
-        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken ")
+        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name = "userByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name = "userAuthTokenByUserId", query = "select ut from UserAuthTokenEntity ut where ut.user = :user ")
 })
 public class UserAuthTokenEntity implements Serializable {
 
@@ -23,8 +28,13 @@ public class UserAuthTokenEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "UUID")
+    @Size(max = 64)
+    private String uuid;
+
     @ManyToOne
     @JoinColumn(name = "USER_ID")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity user;
 
     @Column(name = "ACCESS_TOKEN")
@@ -43,7 +53,7 @@ public class UserAuthTokenEntity implements Serializable {
     @Column(name = "LOGOUT_AT")
     private ZonedDateTime logoutAt;
 
-
+/*
     @Version
     @Column(name="VERSION" , length=19 , nullable = false)
     private Long version;
@@ -63,7 +73,7 @@ public class UserAuthTokenEntity implements Serializable {
 
     @Column(name="MODIFIED_AT")
     private ZonedDateTime modifiedAt;
-
+*/
     public Integer getId() {
         return id;
     }
@@ -112,46 +122,55 @@ public class UserAuthTokenEntity implements Serializable {
         this.logoutAt = logoutAt;
     }
 
-    public Long getVersion() {
-        return version;
+    public String getAuthUuid() {
+        return uuid;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setAuthUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+    /*
+        public Long getVersion() {
+            return version;
+        }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+        public void setVersion(Long version) {
+            this.version = version;
+        }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
+        public String getCreatedBy() {
+            return createdBy;
+        }
 
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+        public void setCreatedBy(String createdBy) {
+            this.createdBy = createdBy;
+        }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+        public ZonedDateTime getCreatedAt() {
+            return createdAt;
+        }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+        public void setCreatedAt(ZonedDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
 
-    public ZonedDateTime getModifiedAt() {
-        return modifiedAt;
-    }
+        public String getModifiedBy() {
+            return modifiedBy;
+        }
 
-    public void setModifiedAt(ZonedDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
+        public void setModifiedBy(String modifiedBy) {
+            this.modifiedBy = modifiedBy;
+        }
 
+        public ZonedDateTime getModifiedAt() {
+            return modifiedAt;
+        }
+
+        public void setModifiedAt(ZonedDateTime modifiedAt) {
+            this.modifiedAt = modifiedAt;
+        }
+    */
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();
