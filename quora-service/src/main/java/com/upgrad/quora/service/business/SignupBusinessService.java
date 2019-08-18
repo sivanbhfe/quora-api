@@ -19,7 +19,8 @@ public class SignupBusinessService {
     private PasswordCryptographyProvider cryptographyProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserEntity signup(UserEntity userEntity) throws SignUpRestrictedException {
+    public UserEntity signup(UserEntity userEntity)
+            throws SignUpRestrictedException {
 
         //Procced only if the userName hasn't been used already
         if(userDao.getUserByUsername(userEntity.getUserName())==null) {
@@ -39,6 +40,8 @@ public class SignupBusinessService {
         }
     }
 
+    /* Written for checking validity of access token and role. Discarded later as the logic was combined into AuthorizationService
+
     public UserAuthTokenEntity getUserByAccessToken(String authorizationToken) throws AuthorizationFailedException {
         UserAuthTokenEntity userAuthTokenEntity = userDao.getUserAuthToken(authorizationToken);
         if (userAuthTokenEntity == null) {
@@ -53,6 +56,6 @@ public class SignupBusinessService {
         }
         return userAuthTokenEntity;
     }
-
+*/
     }
 

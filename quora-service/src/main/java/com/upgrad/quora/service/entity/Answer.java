@@ -1,11 +1,14 @@
 package com.upgrad.quora.service.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
-
+//Schema for answer Table
 @Entity
 @Table(name = "answer", schema = "public")
 @NamedQueries(
@@ -34,15 +37,19 @@ public class Answer {
     @Column(name = "date")
     private ZonedDateTime date;
 
-    @OneToOne
+    // @OneToOne
+    @OneToMany
     @JoinColumn(name = "user_id")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity user;
 
-    @OneToOne
+    // @OneToOne
+    @OneToMany
     @JoinColumn(name = "question_id")
+    @OnDelete(action= OnDeleteAction.CASCADE)
     private Question question;
 
-
+    // Generated getter and setter methods for answer table
     public Integer getId() {
         return id;
     }
