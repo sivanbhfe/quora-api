@@ -34,6 +34,7 @@ public class AdminService {
 
 
                 UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthTokenForAdmin(authorization);
+                /*Checking if the user has admin role*/
                 if (userDao.isRoleAdmin(authorization)) {
                     UserEntity userEntity = userDao.getUserById(userUuid);
                     if(userEntity== null){
