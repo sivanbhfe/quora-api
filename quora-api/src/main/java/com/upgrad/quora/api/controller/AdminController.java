@@ -27,11 +27,11 @@ public class AdminController {
     @Autowired
     private AuthorizationService authorizationService;
 
-/*This endpoint is used to delete a user from the Quora application if the user has signed in and has valid user access token
- and has admin role. If any of these conditions fail, the corresponding exception is thrown.
- This endpoint (a DELETE request), requests path variable userId as a string for the corresponding user that needs
- to be deleted and access token of the signed in user as a String in authorization Request Header. It returns the uuid
- of the user that has been deleted and message in the JSON response with the corresponding HTTP status*/
+    /*This endpoint is used to delete a user from the Quora application if the user has signed in and has valid user access token
+    and has admin role. If any of these conditions fail, the corresponding exception is thrown.
+    This endpoint (a DELETE request), requests path variable userId as a string for the corresponding user that needs
+    to be deleted and access token of the signed in user as a String in authorization Request Header. It returns the uuid
+    of the user that has been deleted and message in the JSON response with the corresponding HTTP status*/
     @RequestMapping(method = RequestMethod.DELETE, path = "/admin/user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDeleteResponse> deleteUser(@PathVariable("userId") final String uuid, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
 
