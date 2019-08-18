@@ -17,22 +17,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+//Business logic for answer related operations
 
 @Service
 public class AnswerService {
 
+    // Auto wired answerDao to provide an abstract interface
     @Autowired
     AnswerDao answerDao;
-
+    // Auto wired questionDao to provide an abstract interface
     @Autowired
     QuestionDao questionDao;
 
+    //an abstract interface for creating answer for a particular question
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer createAnswer(Answer answer) {
         return answerDao.createAnswer(answer);
     }
 
+    //To check whether entered answer has existing UUID or not
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer getAnswerForUuId(String answerUuId) throws AnswerNotFoundException {
         Answer answer = answerDao.getAnswerForUuId(answerUuId);
@@ -43,7 +46,7 @@ public class AnswerService {
         }
     }
 
-
+    // Checks whether answer owner edits the answer and provides proper response to user
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer isUserAnswerOwner(String answerUuId, UserAuthTokenEntity authorizedUser, ActionType actionType) throws AnswerNotFoundException, AuthorizationFailedException {
         Answer answer = answerDao.getAnswerForUuId(answerUuId);
@@ -65,29 +68,30 @@ public class AnswerService {
         }
     }
 
-
+    //An abstract interface for editing answer
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer editAnswer(Answer answer) {
         return answerDao.editAnswer(answer);
     }
 
-
+    //An abstract interface for deleting the answer
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteAnswer(Answer answer) {
         answerDao.deleteAnswer(answer);
     }
 
 
-
+    //An abstract interface for getting answer for question
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Answer> getAnswersForQuestion(String questionUuId) throws AnswerNotFoundException, InvalidQuestionException {
 
         Question question = questionDao.getQuestion(questionUuId);
+
         if (question == null) {
             throw new InvalidQuestionException("QUES-001", "The question with entered uuid whose details are to be seen does not exist");
         }
 
-
+        //throws an exception when there is no answer available for specific question uuid
         List<Answer> answerList = answerDao.getAnswersForQuestion(questionUuId);
         if (answerList == null) {
             throw new AnswerNotFoundException("OTHR-001", "No Answers available for the given question uuid");
