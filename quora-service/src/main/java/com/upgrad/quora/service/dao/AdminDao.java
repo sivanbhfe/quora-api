@@ -27,7 +27,6 @@ public class AdminDao {
             //We need to remove only on UserEntity as all other related table entries will be deleted
             // by @OnDelete annotation function defined for all foreign key fields
             entityManager.remove(deletedUserEntity);
-
             return deletedUserUuid;
         } catch (NullPointerException exc) {
             return null;
