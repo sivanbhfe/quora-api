@@ -70,6 +70,7 @@ public class QuestionController {
         final ZonedDateTime now = ZonedDateTime.now();
         question.setDate(now);
         Question createdQuestion = questionService.createQuestion(question);
+        //sends the response after questio is created
         QuestionResponse questionResponse = new QuestionResponse().id(createdQuestion.getUuid()).status("QUESTION CREATED");
         return new ResponseEntity<QuestionResponse>(questionResponse, HttpStatus.CREATED);
     }
@@ -118,6 +119,7 @@ public class QuestionController {
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
         Question question = questionService.isUserQuestionOwner(questionId, userAuthTokenEntity, ActionType.EDIT_QUESTION);
         question.setContent(questionEditRequest.getContent());
+        //edits the question
         questionService.editQuestion(question);
         QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(question.getUuid()).status("QUESTION EDITED");
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
@@ -138,6 +140,7 @@ public class QuestionController {
             AuthorizationFailedException, InvalidQuestionException {
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
         Question question = questionService.isUserQuestionOwner(questionUuId, userAuthTokenEntity, ActionType.DELETE_QUESTION);
+        // deletes the question
         questionService.deleteQuestion(question);
         QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse()
                 .id(question.getUuid())
