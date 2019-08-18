@@ -87,23 +87,44 @@ public class AnswerController {
      */
     @RequestMapping(method = RequestMethod.PUT, path = "/answer/edit/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> editAnswerContent(AnswerEditRequest answerEditRequest, @PathVariable("answerId") final String answerUuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
+        //Authorize the user
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
+        //Who answer for the question whether the owner or not
         Answer answer = answerService.isUserAnswerOwner(answerUuId, userAuthTokenEntity, ActionType.EDIT_ANSWER);
+        // get the details that needs to be updated
         answer.setAnswer(answerEditRequest.getContent());
         answer.setDate(ZonedDateTime.now());
+        // object of editanswer is created
         Answer editedAnswer = answerService.editAnswer(answer);
+        // Respone to be sent for editedanswer updated in the database with the HttpStatus
         AnswerEditResponse answerEditResponse = new AnswerEditResponse()
                 .id(answerUuId)
                 .status("ANSWER EDITED");
         return new ResponseEntity<AnswerEditResponse>(answerEditResponse, HttpStatus.OK);
     }
 
+    // This controller method is called when the request pattern is of
+    // type 'deleteAnswer' and incoming request is of DELETE Type
+    // The method calls the deleteAnswer() method in the business logic service passing the answer to be deleted
+    // seeks for a controller method with mapping of type '/answer/delete/{answerId}'
+
+    /**
+     * Method is used to delete particular answer for an question with respect to answer id
+     *
+     * @param answerUuId
+     * @param authorization
+     * @return With the status ok
+     * @throws AuthorizationFailedException and  AnswerNotFoundException
+     */
+    
     @RequestMapping(method = RequestMethod.DELETE, path = "/answer/delete/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> deleteAnswer(@PathVariable("answerId") final String answerUuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
 
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
         Answer answer = answerService.isUserAnswerOwner(answerUuId, userAuthTokenEntity, ActionType.DELETE_ANSWER);
+        // deletes the answer from the answer business logic service
         answerService.deleteAnswer(answer);
+        // sends the response whether the answer is deleted along with HttpStatus
         AnswerDeleteResponse answerDeleteResponse = new AnswerDeleteResponse()
                 .id(answerUuId)
                 .status("ANSWER DELETED");
