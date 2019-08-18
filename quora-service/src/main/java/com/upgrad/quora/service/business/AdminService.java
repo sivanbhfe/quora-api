@@ -28,7 +28,6 @@ public class AdminService {
      and the user that has to be deleted has valid accesstoken*/
 
     /*The annotation @Transactional esatblishs the connection, performs the operation and commits the transaction*/
-
     @Transactional(propagation = Propagation.REQUIRED)
     public String deleteUser(final String userUuid, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
         /*Incorporated changes as per the changed User Dao method isValidAuthTokenForAdmin() */
