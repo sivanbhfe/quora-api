@@ -116,7 +116,7 @@ public class AnswerController {
      * @return With the status ok
      * @throws AuthorizationFailedException and  AnswerNotFoundException
      */
-    
+
     @RequestMapping(method = RequestMethod.DELETE, path = "/answer/delete/{answerId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> deleteAnswer(@PathVariable("answerId") final String answerUuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
 
@@ -131,6 +131,18 @@ public class AnswerController {
         return new ResponseEntity<AnswerDeleteResponse>(answerDeleteResponse, HttpStatus.OK);
     }
 
+
+    // This controller method is called when the request pattern is of
+    // type // 'getAllAnswersToQuestion' and incoming request is of GET Type
+    // seekss for a controller method with mapping of type '/answer/all/{questionId}'
+    /**
+     * Method is used to get all answer to particular question with respect to question id
+     * @param questionId
+     * @param authorization
+     * @return
+     * @throws AuthorizationFailedException
+     * @throws InvalidQuestionException and AnswerNotFoundException
+     */
     @RequestMapping(method = RequestMethod.GET, path = "/answer/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getAllAnswersToQuestion(@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException, AnswerNotFoundException {
 
@@ -140,13 +152,20 @@ public class AnswerController {
         getContentsString(answerList, contentBuilder);
         StringBuilder uuIdBuilder = new StringBuilder();
         String questionContentValue = getUuIdStringAndQuestionContent(answerList, uuIdBuilder);
+        //get all answer to particular question with respect to question id
         AnswerDetailsResponse response = new AnswerDetailsResponse()
                 .id(uuIdBuilder.toString())
                 .answerContent(contentBuilder.toString())
                 .questionContent(questionContentValue);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-//check -out
+
+    /**
+     * method for appending the uuid of answers.
+     * @param answerList  List of questions
+     * @param uuIdBuilder StringBuilder object
+     * returns questionContent
+     */
     public static final String getUuIdStringAndQuestionContent(List<Answer> answerList, StringBuilder uuIdBuilder) {
         String questionContent = new String();
         for (Answer answerObject : answerList) {
@@ -156,6 +175,11 @@ public class AnswerController {
         return questionContent;
     }
 
+    /**
+     * method for providing contents string in appended format
+     * @param answerList list of questions
+     * @param builder    StringBuilder with appended content list.
+     */
     public static final StringBuilder getContentsString(List<Answer> answerList, StringBuilder builder) {
         for (Answer answerObject : answerList) {
             builder.append(answerObject.getAnswer()).append(",");
