@@ -38,8 +38,20 @@ public class AnswerController {
     // Autowired question service from quora business service
     @Autowired
     QuestionService questionService;
-    
 
+    // This controller method is called when the request pattern is of
+    // type 'createAnswer' and incoming request is of POST Type
+    // The method calls the createAnswer() method in the business logic
+    // Seeks for a controller method with mapping of type '/question/{questionId}answer/create'
+    /**
+     * Method is used to create answer with respect to question id
+     * @param answerRequest
+     * @param questionUuId
+     * @param authorization
+     * @return answer response with the status created
+     * @throws AuthorizationFailedException and throws InvalidQuestionException
+     *
+     */
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionUuId, @RequestHeader final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
