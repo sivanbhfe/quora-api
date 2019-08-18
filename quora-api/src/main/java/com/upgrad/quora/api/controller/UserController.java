@@ -49,7 +49,8 @@ public class UserController {
         userEntity.setFirstName(signupUserRequest.getFirstName());
         userEntity.setLastName(signupUserRequest.getLastName());
         userEntity.setDob(signupUserRequest.getDob());
-        userEntity.setRole("nonadmin");
+        userEntity.setRole(RoleType.getEnum(1).toString());
+        //System.out.println(userEntity.getRole().getClass());
         userEntity.setAboutme(signupUserRequest.getAboutMe());
         userEntity.setCountry(signupUserRequest.getCountry());
         userEntity.setUserName(signupUserRequest.getUserName());
