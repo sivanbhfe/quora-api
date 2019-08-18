@@ -17,8 +17,8 @@ public class AdminDao {
     private EntityManager entityManager;
 
     public String deleteUser(final String uuid) throws UserNotFoundException{
-
         try {
+            
             UserEntity deletedUserEntity = entityManager.createNamedQuery("userByUuid", UserEntity.class)
                     .setParameter("uuid", uuid).getSingleResult();
             //Getting the uuid of the user that needs to be deleted

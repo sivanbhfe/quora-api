@@ -33,6 +33,7 @@ public class AdminService {
     public String deleteUser(final String userUuid, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
         /*Incorporated changes as per the changed User Dao method isValidAuthTokenForAdmin() */
         UserAuthTokenEntity authTokenEntity = userDao.isValidActiveAuthTokenForAdmin(authorization);
+        /*checking if user has signed in*/
         if (userDao.hasUserSignedIn(authorization)) {
             if (authTokenEntity != null) {
                 if (userDao.isRoleAdmin(authorization)) {
