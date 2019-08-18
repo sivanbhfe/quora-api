@@ -81,16 +81,17 @@ public class AnswerService {
     }
 
 
-    
+    //An abstract interface for getting answer for question
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Answer> getAnswersForQuestion(String questionUuId) throws AnswerNotFoundException, InvalidQuestionException {
 
         Question question = questionDao.getQuestion(questionUuId);
+        
         if (question == null) {
             throw new InvalidQuestionException("QUES-001", "The question with entered uuid whose details are to be seen does not exist");
         }
 
-
+        //throws an exception when there is no answer available for specific question uuid
         List<Answer> answerList = answerDao.getAnswersForQuestion(questionUuId);
         if (answerList == null) {
             throw new AnswerNotFoundException("OTHR-001", "No Answers available for the given question uuid");
