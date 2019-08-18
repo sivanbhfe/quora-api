@@ -93,7 +93,7 @@ public class AnswerController {
                 .questionContent(questionContentValue);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+//check -out
     public static final String getUuIdStringAndQuestionContent(List<Answer> answerList, StringBuilder uuIdBuilder) {
         String questionContent = new String();
         for (Answer answerObject : answerList) {
@@ -102,7 +102,7 @@ public class AnswerController {
         }
         return questionContent;
     }
-
+    //tut
     public static final StringBuilder getContentsString(List<Answer> answerList, StringBuilder builder) {
         for (Answer answerObject : answerList) {
             builder.append(answerObject.getAnswer()).append(",");
