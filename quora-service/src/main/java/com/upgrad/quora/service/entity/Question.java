@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 
 
 
-//Defines attributes and relationship for this table.
+//Schema to Define attributes and relationship for Question table.
 
 @Entity
 @Table(name = "question", schema = "public")
@@ -54,6 +54,7 @@ public class Question {
     private UserEntity user;
 
 
+    // generated getter and setter methods for question table
 
     public Integer getId() {
         return id;
