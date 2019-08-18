@@ -29,6 +29,7 @@ public class AdminController {
 
     /*This endpoint is used to delete a user from the Quora application if the user has signed in and has valid user access token
     and has admin role. If any of these conditions fail, the corresponding exception is thrown.
+
     This endpoint (a DELETE request), requests path variable userId as a string for the corresponding user that needs
     to be deleted and access token of the signed in user as a String in authorization Request Header. It returns the uuid
     of the user that has been deleted and message in the JSON response with the corresponding HTTP status*/

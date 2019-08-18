@@ -37,7 +37,6 @@ public class AdminService {
         if (userDao.hasUserSignedIn(authorization)) {
             /*Checking if the user has signed out and accordingly throwing an exception*/
             if (authTokenEntity != null) {
-
                 /*Check if the logged in user has admin role or not*/
                 if (userDao.isRoleAdmin(authorization)) {
                     UserEntity userEntity = userDao.getUserById(userUuid);
