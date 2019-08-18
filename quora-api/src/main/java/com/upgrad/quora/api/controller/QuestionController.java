@@ -25,7 +25,6 @@ import java.util.UUID;
 
 
 // Controller class for question-operations.
-
 @RestController
 @RequestMapping("/")
 public class QuestionController {
