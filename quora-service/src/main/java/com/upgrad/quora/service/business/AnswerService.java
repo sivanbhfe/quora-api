@@ -86,7 +86,7 @@ public class AnswerService {
     public List<Answer> getAnswersForQuestion(String questionUuId) throws AnswerNotFoundException, InvalidQuestionException {
 
         Question question = questionDao.getQuestion(questionUuId);
-        
+
         if (question == null) {
             throw new InvalidQuestionException("QUES-001", "The question with entered uuid whose details are to be seen does not exist");
         }
