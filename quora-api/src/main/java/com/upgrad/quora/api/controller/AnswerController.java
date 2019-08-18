@@ -22,20 +22,23 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-
+// Controller for posting Answer and Edit,delete Answer
 @RestController
 @RequestMapping("/")
 public class AnswerController {
 
-
+    // Autowired answer service from quora business service
     @Autowired
     AnswerService answerService;
 
+    // Autowired authorization service from quora business service
     @Autowired
     private AuthorizationService authorizationService;
-    @Autowired
 
+    // Autowired question service from quora business service
+    @Autowired
     QuestionService questionService;
+    
 
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionUuId, @RequestHeader final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
