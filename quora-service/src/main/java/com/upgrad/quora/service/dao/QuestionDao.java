@@ -20,12 +20,11 @@ public class QuestionDao {
     private static final String GET_ALL_QUESTIONS_FOR_USER = "getAllQuestionsForUser";
     private static final String GET_QUESTION = "getQuestion";
 
+    // persitence for entity manager
     @PersistenceContext
     private EntityManager entityManager;
 
-
-
-    // persistence entity to creats question in database.
+    // persistence entity to create question in database.
 
     public Question createQuestion(Question question) {
         entityManager.persist(question);
