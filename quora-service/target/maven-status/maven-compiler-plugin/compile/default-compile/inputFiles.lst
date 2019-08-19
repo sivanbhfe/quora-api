@@ -23,7 +23,6 @@ D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\
 D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\type\RoleType.java
 D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\exception\UserNotFoundException.java
 D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\dao\UserDao.java
-D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\exception\ConstraintException.java
 D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\entity\UserEntity.java
 D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\business\JwtTokenProvider.java
 D:\PGPSD\Final_Project_API\quora-service\src\main\java\com\upgrad\quora\service\common\ErrorCode.java

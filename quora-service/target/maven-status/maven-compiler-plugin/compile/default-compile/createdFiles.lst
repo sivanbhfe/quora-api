@@ -24,7 +24,6 @@ com\upgrad\quora\service\exception\AnswerNotFoundException.class
 com\upgrad\quora\service\exception\InvalidQuestionException.class
 com\upgrad\quora\service\dao\AdminDao.class
 com\upgrad\quora\service\business\AdminService.class
-com\upgrad\quora\service\exception\ConstraintException.class
 com\upgrad\quora\service\exception\AuthenticationFailedException.class
 com\upgrad\quora\service\dao\UserDao.class
 com\upgrad\quora\service\entity\Answer.class
