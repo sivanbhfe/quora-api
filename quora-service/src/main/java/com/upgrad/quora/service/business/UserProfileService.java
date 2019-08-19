@@ -23,7 +23,7 @@ public class UserProfileService {
     public UserEntity fetchUser(final String uuid, final String authorization)
             throws AuthorizationFailedException, UserNotFoundException {
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization, ActionType.GET_USER_DETAILS);
-                final UserEntity fetchedUser = userDao.getUserById(uuid);
-                return fetchedUser;
-            }
+        final UserEntity fetchedUser = userDao.getUserById(uuid);
+        return fetchedUser;
+    }
 }

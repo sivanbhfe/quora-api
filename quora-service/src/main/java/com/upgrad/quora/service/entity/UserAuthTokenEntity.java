@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "user_auth", schema = "public")
 @NamedQueries({
-        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name = "userAuthTokenByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
         @NamedQuery(name = "userByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
         @NamedQuery(name = "userAuthTokenByUserId", query = "select ut from UserAuthTokenEntity ut where ut.user = :user ")
 })
@@ -34,7 +34,7 @@ public class UserAuthTokenEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
     @Column(name = "ACCESS_TOKEN")
@@ -53,27 +53,27 @@ public class UserAuthTokenEntity implements Serializable {
     @Column(name = "LOGOUT_AT")
     private ZonedDateTime logoutAt;
 
-/*
-    @Version
-    @Column(name="VERSION" , length=19 , nullable = false)
-    private Long version;
+    /*
+        @Version
+        @Column(name="VERSION" , length=19 , nullable = false)
+        private Long version;
 
 
-    @Column(name="CREATED_BY")
-    @NotNull
-    private String createdBy;
+        @Column(name="CREATED_BY")
+        @NotNull
+        private String createdBy;
 
 
-    @Column(name="CREATED_AT")
-    @NotNull
-    private ZonedDateTime createdAt;
+        @Column(name="CREATED_AT")
+        @NotNull
+        private ZonedDateTime createdAt;
 
-    @Column(name="MODIFIED_BY")
-    private String modifiedBy;
+        @Column(name="MODIFIED_BY")
+        private String modifiedBy;
 
-    @Column(name="MODIFIED_AT")
-    private ZonedDateTime modifiedAt;
-*/
+        @Column(name="MODIFIED_AT")
+        private ZonedDateTime modifiedAt;
+    */
     public Integer getId() {
         return id;
     }

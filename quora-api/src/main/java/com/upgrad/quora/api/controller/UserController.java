@@ -40,8 +40,8 @@ public class UserController {
     private SignoutService signoutService;
 
     //Signup function
-    @RequestMapping(path="/user/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
-    ,produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(path = "/user/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE
+            , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest)
             throws SignUpRestrictedException {
         final UserEntity userEntity = new UserEntity();
@@ -64,31 +64,31 @@ public class UserController {
     }
 
     //Signin function
-    @RequestMapping(method= RequestMethod.POST, path="/user/signin", produces= MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<SigninResponse> login (@RequestHeader("authentication") final String authentication)
+    @RequestMapping(method = RequestMethod.POST, path = "/user/signin", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SigninResponse> login(@RequestHeader("authentication") final String authentication)
             throws UserNotFoundException, AuthenticationFailedException {
         byte[] decode = Base64.getDecoder().decode(authentication.split("Basic ")[1]);
         String decodedText = new String(decode);
         String[] decodedArray = decodedText.split(":");
 
-        UserAuthTokenEntity userAuthToken = authenticationService.authenticate(decodedArray[0],decodedArray[1]);
+        UserAuthTokenEntity userAuthToken = authenticationService.authenticate(decodedArray[0], decodedArray[1]);
         UserEntity user = userAuthToken.getUser();
         SigninResponse signinResponse = new SigninResponse().id(user.getUuid())
                 .message("SIGNED IN SUCCESSFULLY");
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("access-token", userAuthToken.getAccessToken());
-        return new ResponseEntity<SigninResponse>(signinResponse,headers,HttpStatus.OK);
+        return new ResponseEntity<SigninResponse>(signinResponse, headers, HttpStatus.OK);
     }
 
     //Signout function
-    @RequestMapping(method= RequestMethod.POST, path="/user/signout", produces= MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<SignoutResponse> signout (@RequestHeader("authorization") final String authorization)
+    @RequestMapping(method = RequestMethod.POST, path = "/user/signout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SignoutResponse> signout(@RequestHeader("authorization") final String authorization)
             throws SignOutRestrictedException {
         String Uuid = signoutService.signOut(authorization);
         SignoutResponse signoutResponse = new SignoutResponse().id(Uuid)
                 .message("SIGNED OUT SUCCESSFULLY");
-        return new ResponseEntity<SignoutResponse>(signoutResponse,HttpStatus.OK);
+        return new ResponseEntity<SignoutResponse>(signoutResponse, HttpStatus.OK);
     }
 
 }

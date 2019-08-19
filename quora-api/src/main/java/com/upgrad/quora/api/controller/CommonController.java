@@ -23,17 +23,16 @@ public class CommonController {
     @Autowired
     private UserProfileService userProfileService;
 
-    @RequestMapping(method = RequestMethod.GET, path="/userprofile/{userId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-   public ResponseEntity<UserDetailsResponse> userProfile(@PathVariable("userId")
-                                              final String uuid, @RequestHeader("authorization") final String authorization)
-                                              throws AuthorizationFailedException, UserNotFoundException {
+    @RequestMapping(method = RequestMethod.GET, path = "/userprofile/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UserDetailsResponse> userProfile(@PathVariable("userId") final String uuid, @RequestHeader("authorization") final String authorization)
+            throws AuthorizationFailedException, UserNotFoundException {
         UserEntity userEntity = userProfileService.fetchUser(uuid, authorization);
         UserDetailsResponse userDetailsResponse = new UserDetailsResponse().firstName(userEntity.getFirstName())
-                    .lastName(userEntity.getLastName()).emailAddress(userEntity.getEmail())
-                    .contactNumber(userEntity.getContactNumber()).userName(userEntity.getUserName())
-                    .country(userEntity.getCountry()).aboutMe(userEntity.getAboutme())
-                    .dob(userEntity.getDob());
-            // .status(UserStatusType.valueOf(UserStatus.getEnum(userEntity.getStatus()).name()));
+                .lastName(userEntity.getLastName()).emailAddress(userEntity.getEmail())
+                .contactNumber(userEntity.getContactNumber()).userName(userEntity.getUserName())
+                .country(userEntity.getCountry()).aboutMe(userEntity.getAboutme())
+                .dob(userEntity.getDob());
+        // .status(UserStatusType.valueOf(UserStatus.getEnum(userEntity.getStatus()).name()));
         return new ResponseEntity<UserDetailsResponse>(userDetailsResponse, HttpStatus.OK);
 
     }

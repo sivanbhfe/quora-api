@@ -39,12 +39,12 @@ public class Answer {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 
     // Generated getter and setter methods for answer table
@@ -93,19 +93,14 @@ public class Answer {
     }
 
 
-
-
     public void setUser(UserEntity user) {
         this.user = user;
     }
 
 
-
-
     public Question getQuestion() {
         return question;
     }
-
 
 
     public void setQuestion(Question question) {

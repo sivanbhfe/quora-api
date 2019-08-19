@@ -16,7 +16,7 @@ public class AuthorizationService {
 
     //To check if the user with the access token is signed in / access token exists in the table
     //Returns boolean based on whether the access token is present in the table
-    public boolean hasUserSignedIn (final String authorization) {
+    public boolean hasUserSignedIn(final String authorization) {
         return userDao.hasUserSignedIn(authorization);
     }
 
@@ -31,7 +31,7 @@ public class AuthorizationService {
     //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
     //Reason: Exception messages are slightly different
     //This implementation for CommonController
-    public UserAuthTokenEntity isValidActiveAuthToken(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException{
+    public UserAuthTokenEntity isValidActiveAuthToken(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException {
         return userDao.isValidActiveAuthToken(authorization, actionType);
 
     }
@@ -39,25 +39,25 @@ public class AuthorizationService {
     //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
     //Reason: Exception messages are slightly different
     //This implementation for AdminController
-    public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String authorization) throws AuthorizationFailedException{
+    public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String authorization) throws AuthorizationFailedException {
         return userDao.isValidActiveAuthTokenForAdmin(authorization);
 
     }
-/*
-    //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
-    //Reason: Exception messages are slightly different
-    //This implementation for QuestionController
-    public UserAuthTokenEntity isValidActiveAuthTokenForQuestion(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException{
-        return userDao.isValidActiveAuthTokenForQuestion(authorization,actionType);
 
-    }
-*/
+    /*
+        //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
+        //Reason: Exception messages are slightly different
+        //This implementation for QuestionController
+        public UserAuthTokenEntity isValidActiveAuthTokenForQuestion(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException{
+            return userDao.isValidActiveAuthTokenForQuestion(authorization,actionType);
+
+        }
+    */
     //To fetch UserAuthTokenEntity for particular acces token
     public UserAuthTokenEntity fetchAuthTokenEntity(final String authorization) throws SignOutRestrictedException {
         final UserAuthTokenEntity fetchedUserAuthTokenEntity = userDao.getUserAuthToken(authorization);
         return fetchedUserAuthTokenEntity;
     }
-
 
 
 }

@@ -43,18 +43,19 @@ public class AnswerController {
     // type 'createAnswer' and incoming request is of POST Type
     // The method calls the createAnswer() method in the business logic
     // Seeks for a controller method with mapping of type '/question/{questionId}answer/create'
+
     /**
      * Method is used to create answer with respect to question id
+     *
      * @param answerRequest
      * @param questionUuId
      * @param authorization
      * @return answer response with the status created
      * @throws AuthorizationFailedException and throws InvalidQuestionException
-     *
      */
     @RequestMapping(method = RequestMethod.POST, path = "/question/{questionId}/answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> createAnswer(final AnswerRequest answerRequest, @PathVariable("questionId") final String questionUuId, @RequestHeader final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
-        UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization,ActionType.CREATE_ANSWER);
+        UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization, ActionType.CREATE_ANSWER);
         //Gets the question object from the database
         Question question = questionService.getQuestionForUuId(questionUuId);
         //Gets the answer object from the database
@@ -79,6 +80,7 @@ public class AnswerController {
 
     /**
      * Method used edit answer with respect to answer id
+     *
      * @param answerEditRequest
      * @param answerUuId
      * @param authorization
@@ -135,13 +137,15 @@ public class AnswerController {
     // This controller method is called when the request pattern is of
     // type // 'getAllAnswersToQuestion' and incoming request is of GET Type
     // seekss for a controller method with mapping of type '/answer/all/{questionId}'
+
     /**
      * Method is used to get all answer to particular question with respect to question id
+     *
      * @param questionId
      * @param authorization
      * @return
      * @throws AuthorizationFailedException
-     * @throws InvalidQuestionException and AnswerNotFoundException
+     * @throws InvalidQuestionException     and AnswerNotFoundException
      */
     @RequestMapping(method = RequestMethod.GET, path = "/answer/all/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getAllAnswersToQuestion(@PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException, AnswerNotFoundException {
@@ -162,9 +166,10 @@ public class AnswerController {
 
     /**
      * method for appending the uuid of answers.
+     *
      * @param answerList  List of questions
      * @param uuIdBuilder StringBuilder object
-     * returns questionContent
+     *                    returns questionContent
      */
     public static final String getUuIdStringAndQuestionContent(List<Answer> answerList, StringBuilder uuIdBuilder) {
         String questionContent = new String();
@@ -177,6 +182,7 @@ public class AnswerController {
 
     /**
      * method for providing contents string in appended format
+     *
      * @param answerList list of questions
      * @param builder    StringBuilder with appended content list.
      */

@@ -37,12 +37,12 @@ public class AdminController {
 
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthTokenForAdmin(authorization);
 
-            String UUID = adminService.deleteUser(uuid, authorization);
-            /*UserDeletResposnse will have the message that user has been succeefully deleted*/
-            final UserDeleteResponse userDeleteResponse = new UserDeleteResponse().id(UUID).status("USER SUCCESSFULLY DELETED");
+        String UUID = adminService.deleteUser(uuid, authorization);
+        /*UserDeletResposnse will have the message that user has been succeefully deleted*/
+        final UserDeleteResponse userDeleteResponse = new UserDeleteResponse().id(UUID).status("USER SUCCESSFULLY DELETED");
 
-            /*Returning the message in the JSON response with the corresponding HTTP status*/
-            return new ResponseEntity<UserDeleteResponse>(userDeleteResponse, HttpStatus.OK);
+        /*Returning the message in the JSON response with the corresponding HTTP status*/
+        return new ResponseEntity<UserDeleteResponse>(userDeleteResponse, HttpStatus.OK);
 
     }
 }

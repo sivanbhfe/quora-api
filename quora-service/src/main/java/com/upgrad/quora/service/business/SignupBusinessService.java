@@ -23,20 +23,20 @@ public class SignupBusinessService {
             throws SignUpRestrictedException {
 
         //Procced only if the userName hasn't been used already
-        if(userDao.getUserByUsername(userEntity.getUserName())==null) {
+        if (userDao.getUserByUsername(userEntity.getUserName()) == null) {
 
             //Procced only if the email hasn't been used already
-            if(userDao.getUserByEmail(userEntity.getEmail())==null){
+            if (userDao.getUserByEmail(userEntity.getEmail()) == null) {
                 String password = userEntity.getPassword();
                 String[] encryptedText = cryptographyProvider.encrypt(password);
                 userEntity.setSalt(encryptedText[0]);
                 userEntity.setPassword(encryptedText[1]);
                 return userDao.createUser(userEntity);
             } else {
-                throw new SignUpRestrictedException("SGR-002","This user has already been registered, try with any other emailId");
+                throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
             }
         } else {
-            throw new SignUpRestrictedException("SGR-001","Try any other Username, this Username has already been taken");
+            throw new SignUpRestrictedException("SGR-001", "Try any other Username, this Username has already been taken");
         }
     }
 
@@ -57,5 +57,5 @@ public class SignupBusinessService {
         return userAuthTokenEntity;
     }
 */
-    }
+}
 

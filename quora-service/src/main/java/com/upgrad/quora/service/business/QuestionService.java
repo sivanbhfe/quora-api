@@ -57,7 +57,7 @@ public class QuestionService {
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Question> getAllQuestions() {
         List<Question> questionList = questionDao.getAllQuestions();
-                    return questionList;
+        return questionList;
     }
 
 
@@ -70,7 +70,7 @@ public class QuestionService {
             throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
         } else if (!question.getUser().getUuid().equals(authorizedUser.getUser().getUuid())) {
             if (actionType.equals(ActionType.DELETE_QUESTION)) {
-                if (authorizedUser.getUser().getRole().equals(RoleType.admin.toString())){
+                if (authorizedUser.getUser().getRole().equals(RoleType.admin.toString())) {
                     return question;
                 } else {
                     throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");

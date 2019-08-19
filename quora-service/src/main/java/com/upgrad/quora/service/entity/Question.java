@@ -15,9 +15,6 @@ import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
 
-
-
-
 //Schema to Define attributes and relationship for Question table.
 
 @Entity
@@ -49,7 +46,7 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
 

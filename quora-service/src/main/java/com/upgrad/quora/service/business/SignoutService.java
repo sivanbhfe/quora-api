@@ -21,7 +21,7 @@ public class SignoutService {
     @Transactional(propagation = Propagation.REQUIRED)
     public String signOut(final String authorization)
             throws SignOutRestrictedException {
-            UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
-            return userDao.signOut(authorization);
+        UserAuthTokenEntity userAuthTokenEntity = authorizationService.fetchAuthTokenEntity(authorization);
+        return userDao.signOut(authorization);
     }
 }

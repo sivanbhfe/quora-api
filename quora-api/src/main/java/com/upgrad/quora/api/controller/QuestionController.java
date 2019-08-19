@@ -60,7 +60,7 @@ public class QuestionController {
     public ResponseEntity<?> createQuestion(final QuestionRequest questionRequest,
                                             @RequestHeader final String authorization)
             throws AuthorizationFailedException {
-        UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization,ActionType.CREATE_QUESTION);
+        UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization, ActionType.CREATE_QUESTION);
         UserEntity user = userAuthTokenEntity.getUser();
         Question question = new Question();
         question.setUser(userAuthTokenEntity.getUser());

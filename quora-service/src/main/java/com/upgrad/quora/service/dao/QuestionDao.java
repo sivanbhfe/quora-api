@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
-
 // DAO class for Question- database operations.
 
 @Repository
