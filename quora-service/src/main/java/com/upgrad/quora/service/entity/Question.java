@@ -47,8 +47,7 @@ public class Question {
     @Column(name = "date")
     private ZonedDateTime date;
 
-   // @OneToOne
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @OnDelete(action= OnDeleteAction.CASCADE)
     private UserEntity user;

@@ -4,6 +4,7 @@ import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import com.upgrad.quora.service.type.ActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,22 +28,30 @@ public class AuthorizationService {
     }
     */
 
-    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
     //Reason: Exception messages are slightly different
     //This implementation for CommonController
-    public UserAuthTokenEntity isValidActiveAuthToken(final String authorization) throws AuthorizationFailedException{
-        return userDao.isValidActiveAuthToken(authorization);
+    public UserAuthTokenEntity isValidActiveAuthToken(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException{
+        return userDao.isValidActiveAuthToken(authorization, actionType);
 
     }
 
-    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
     //Reason: Exception messages are slightly different
     //This implementation for AdminController
     public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String authorization) throws AuthorizationFailedException{
         return userDao.isValidActiveAuthTokenForAdmin(authorization);
 
     }
+/*
+    //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
+    //Reason: Exception messages are slightly different
+    //This implementation for QuestionController
+    public UserAuthTokenEntity isValidActiveAuthTokenForQuestion(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException{
+        return userDao.isValidActiveAuthTokenForQuestion(authorization,actionType);
 
+    }
+*/
     //To fetch UserAuthTokenEntity for particular acces token
     public UserAuthTokenEntity fetchAuthTokenEntity(final String authorization) throws SignOutRestrictedException {
         final UserAuthTokenEntity fetchedUserAuthTokenEntity = userDao.getUserAuthToken(authorization);

@@ -7,6 +7,7 @@ import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import javax.validation.ConstraintViolationException;
 
 import com.upgrad.quora.service.exception.UserNotFoundException;
+import com.upgrad.quora.service.type.ActionType;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -94,7 +95,7 @@ public class UserDao {
         }
 
     }
-
+/*  Merged with isValidActiveAuthToken method with authroization and ActionType as parameters
     //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
     //Reason: AdminController has one more check for admin role and Exception messages are slightly different
     //This implementation for CommonController
@@ -114,7 +115,7 @@ public class UserDao {
         }
 
     }
-
+*/
     //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
     //Reason: Exception messages are slightly different
     //This implementation for AdminController
@@ -133,6 +134,49 @@ public class UserDao {
             throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
         }
 
+    }
+
+    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
+    //Reason: Exception messages are slightly different
+    //This implementation for AdminController
+    public UserAuthTokenEntity isValidActiveAuthToken(final String accessToken, Enum<ActionType> actionType) throws AuthorizationFailedException {
+        try {
+            UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
+                    .setParameter("accessToken", accessToken).getSingleResult();
+            final ZonedDateTime now = ZonedDateTime.now();
+            if (userAuthTokenEntity.getLogoutAt() == null) {
+                return userAuthTokenEntity;
+            } else {
+                //Exception message for CommonController
+                if (actionType.equals(ActionType.GET_USER_DETAILS)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
+                } else if (actionType.equals(ActionType.DELETE_USER)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out");
+                } else if (actionType.equals(ActionType.CREATE_QUESTION)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post a question");
+                } else if (actionType.equals(ActionType.ALL_QUESTION)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions");
+                } else if (actionType.equals(ActionType.EDIT_QUESTION)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to edit the question");
+                } else if (actionType.equals(ActionType.DELETE_QUESTION)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to delete a question");
+                } else if (actionType.equals(ActionType.ALL_QUESTION_FOR_USER)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get all questions posted by a specific user");
+                } else if (actionType.equals(ActionType.CREATE_ANSWER)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to post an answer");
+                } else if (actionType.equals(ActionType.EDIT_ANSWER)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to edit an answer");
+                } else if (actionType.equals(ActionType.DELETE_ANSWER)) {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to delete an answer");
+                } else if (actionType.equals(ActionType.GET_ALL_ANSWER_TO_QUESTION)){
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get the answers");
+                } else {
+                    throw new AuthorizationFailedException("ATHR-002", "User is signed out.");
+                }
+            }
+        } catch (NoResultException exception) {
+            throw new AuthorizationFailedException("ATHR-001", "User has not signed in");
+        }
     }
 
     /* Created initial for validating access token later combined into other methods
