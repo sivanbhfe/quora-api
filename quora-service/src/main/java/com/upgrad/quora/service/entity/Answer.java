@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @NamedQueries(
         {
                 @NamedQuery(name = "getAnswerForUuId", query = "select ans from Answer ans where ans.uuid=:uuid"),
-                @NamedQuery(name = "getAnswersForQuestion", query = "select ans from Answer ans where ans.question.uuid=:uuid")
+                @NamedQuery(name = "getAnsersForQuestion", query = "select ans from Answer ans where ans.question.uuid=:uuid")
         }
 )
 public class Answer {
