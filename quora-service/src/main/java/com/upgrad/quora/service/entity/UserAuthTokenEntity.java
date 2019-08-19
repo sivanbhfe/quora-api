@@ -15,9 +15,9 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "user_auth", schema = "quora")
+@Table(name = "user_auth", schema = "public")
 @NamedQueries({
-        @NamedQuery(name = "userAuthTokenByAccessToken" , query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
+        @NamedQuery(name = "userAuthTokenByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
         @NamedQuery(name = "userByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken "),
         @NamedQuery(name = "userAuthTokenByUserId", query = "select ut from UserAuthTokenEntity ut where ut.user = :user ")
 })
@@ -34,7 +34,7 @@ public class UserAuthTokenEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    @OnDelete(action= OnDeleteAction.CASCADE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
     @Column(name = "ACCESS_TOKEN")
@@ -53,27 +53,27 @@ public class UserAuthTokenEntity implements Serializable {
     @Column(name = "LOGOUT_AT")
     private ZonedDateTime logoutAt;
 
-/*
-    @Version
-    @Column(name="VERSION" , length=19 , nullable = false)
-    private Long version;
+    /*
+        @Version
+        @Column(name="VERSION" , length=19 , nullable = false)
+        private Long version;
 
 
-    @Column(name="CREATED_BY")
-    @NotNull
-    private String createdBy;
+        @Column(name="CREATED_BY")
+        @NotNull
+        private String createdBy;
 
 
-    @Column(name="CREATED_AT")
-    @NotNull
-    private ZonedDateTime createdAt;
+        @Column(name="CREATED_AT")
+        @NotNull
+        private ZonedDateTime createdAt;
 
-    @Column(name="MODIFIED_BY")
-    private String modifiedBy;
+        @Column(name="MODIFIED_BY")
+        private String modifiedBy;
 
-    @Column(name="MODIFIED_AT")
-    private ZonedDateTime modifiedAt;
-*/
+        @Column(name="MODIFIED_AT")
+        private ZonedDateTime modifiedAt;
+    */
     public Integer getId() {
         return id;
     }
@@ -130,47 +130,6 @@ public class UserAuthTokenEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    /*
-        public Long getVersion() {
-            return version;
-        }
-
-        public void setVersion(Long version) {
-            this.version = version;
-        }
-
-        public String getCreatedBy() {
-            return createdBy;
-        }
-
-        public void setCreatedBy(String createdBy) {
-            this.createdBy = createdBy;
-        }
-
-        public ZonedDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(ZonedDateTime createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getModifiedBy() {
-            return modifiedBy;
-        }
-
-        public void setModifiedBy(String modifiedBy) {
-            this.modifiedBy = modifiedBy;
-        }
-
-        public ZonedDateTime getModifiedAt() {
-            return modifiedAt;
-        }
-
-        public void setModifiedAt(ZonedDateTime modifiedAt) {
-            this.modifiedAt = modifiedAt;
-        }
-    */
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();
