@@ -70,14 +70,15 @@ public class QuestionService {
             throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
         } else if (!question.getUser().getUuid().equals(authorizedUser.getUser().getUuid())) {
             if (actionType.equals(ActionType.DELETE_QUESTION)) {
-                throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+                if (authorizedUser.getUser().getRole().equals(RoleType.admin.toString())){
+                    return question;
+                } else {
+                    throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+                }
+
             } else {
                 throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
             }
-        } else if (!authorizedUser.getUser().getRole().equals(RoleType.admin.toString())
-                && !question.getUser().getUuid().equals(authorizedUser.getUser().getUuid())
-                && actionType.equals(ActionType.DELETE_QUESTION)) {
-            throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
         } else {
             return question;
         }
