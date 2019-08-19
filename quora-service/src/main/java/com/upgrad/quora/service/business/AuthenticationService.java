@@ -22,12 +22,12 @@ public class AuthenticationService {
     @Autowired
     private PasswordCryptographyProvider cryptographyProvider;
 
-    @Transactional(propagation= Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthTokenEntity authenticate(final String username, final String password)
             throws UserNotFoundException, AuthenticationFailedException {
         UserEntity userEntity = userDao.getUserByUsername(username);
-        if(userEntity==null){
-            throw new UserNotFoundException("ATH-001","This username does not exist");
+        if (userEntity == null) {
+            throw new UserNotFoundException("ATH-001", "This username does not exist");
         } else {
             final String encryptedPassword = cryptographyProvider.encrypt(password, userEntity.getSalt());
             if (encryptedPassword.equals(userEntity.getPassword())) {

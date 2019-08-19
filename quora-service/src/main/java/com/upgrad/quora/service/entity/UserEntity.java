@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name="users", schema="quora")
+@Table(name = "users", schema = "public")
 @NamedQueries(
         {
                 @NamedQuery(name = "userByUuid", query = "select u from UserEntity u where u.uuid = :uuid"),
@@ -78,7 +78,7 @@ public class UserEntity implements Serializable {
     @Size(max = 200)
     private String dob;
 
-    @Column(name="ROLE")
+    @Column(name = "ROLE")
     @Size(max = 50)
     private String role;
 
@@ -86,40 +86,41 @@ public class UserEntity implements Serializable {
     @NotNull
     @Size(max = 50)
     private String contactNumber;
-/*
-    @Version
-    @Column(name="VERSION" , length=19 , nullable = false)
-    private Long version;
 
-    @Column(name="CREATED_BY")
-    @NotNull
-    private String createdBy;
+    /*
+        @Version
+        @Column(name="VERSION" , length=19 , nullable = false)
+        private Long version;
 
-    @Column(name="CREATED_AT")
-    @NotNull
-    private ZonedDateTime createdAt;
+        @Column(name="CREATED_BY")
+        @NotNull
+        private String createdBy;
 
-    @Column(name="MODIFIED_BY")
-    private String modifiedBy;
+        @Column(name="CREATED_AT")
+        @NotNull
+        private ZonedDateTime createdAt;
 
-    @Column(name="MODIFIED_AT")
-    private ZonedDateTime modifiedAt;
+        @Column(name="MODIFIED_BY")
+        private String modifiedBy;
 
-    @Column(name = "FAILED_LOGIN_COUNT")
-    @Min(0)
-    @Max(5)
-    private int failedLoginCount;
+        @Column(name="MODIFIED_AT")
+        private ZonedDateTime modifiedAt;
 
-    @Column(name = "LAST_PASSWORD_CHANGE_AT")
-    private ZonedDateTime lastPasswordChangeAt;
+        @Column(name = "FAILED_LOGIN_COUNT")
+        @Min(0)
+        @Max(5)
+        private int failedLoginCount;
 
-    @Column(name = "LAST_LOGIN_AT")
-    private ZonedDateTime lastLoginAt;
+        @Column(name = "LAST_PASSWORD_CHANGE_AT")
+        private ZonedDateTime lastPasswordChangeAt;
 
-    @Column(name = "STATUS")
-    @NotNull
-    private int status;
-*/
+        @Column(name = "LAST_LOGIN_AT")
+        private ZonedDateTime lastLoginAt;
+
+        @Column(name = "STATUS")
+        @NotNull
+        private int status;
+    */
     public Integer getId() {
         return id;
     }
@@ -223,79 +224,80 @@ public class UserEntity implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-/*
-    public Long getVersion() {
-        return version;
-    }
 
-    public void setVersion(Long version) {
-        this.version = version;
-    }
+    /*
+        public Long getVersion() {
+            return version;
+        }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+        public void setVersion(Long version) {
+            this.version = version;
+        }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+        public String getCreatedBy() {
+            return createdBy;
+        }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
+        public void setCreatedBy(String createdBy) {
+            this.createdBy = createdBy;
+        }
 
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+        public ZonedDateTime getCreatedAt() {
+            return createdAt;
+        }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+        public void setCreatedAt(ZonedDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+        public String getModifiedBy() {
+            return modifiedBy;
+        }
 
-    public ZonedDateTime getModifiedAt() {
-        return modifiedAt;
-    }
+        public void setModifiedBy(String modifiedBy) {
+            this.modifiedBy = modifiedBy;
+        }
 
-    public void setModifiedAt(ZonedDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
+        public ZonedDateTime getModifiedAt() {
+            return modifiedAt;
+        }
 
-    public int getFailedLoginCount() {
-        return failedLoginCount;
-    }
+        public void setModifiedAt(ZonedDateTime modifiedAt) {
+            this.modifiedAt = modifiedAt;
+        }
 
-    public void setFailedLoginCount(int failedLoginCount) {
-        this.failedLoginCount = failedLoginCount;
-    }
+        public int getFailedLoginCount() {
+            return failedLoginCount;
+        }
 
-    public ZonedDateTime getLastPasswordChangeAt() {
-        return lastPasswordChangeAt;
-    }
+        public void setFailedLoginCount(int failedLoginCount) {
+            this.failedLoginCount = failedLoginCount;
+        }
 
-    public void setLastPasswordChangeAt(ZonedDateTime lastPasswordChangeAt) {
-        this.lastPasswordChangeAt = lastPasswordChangeAt;
-    }
+        public ZonedDateTime getLastPasswordChangeAt() {
+            return lastPasswordChangeAt;
+        }
 
-    public ZonedDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
+        public void setLastPasswordChangeAt(ZonedDateTime lastPasswordChangeAt) {
+            this.lastPasswordChangeAt = lastPasswordChangeAt;
+        }
 
-    public void setLastLoginAt(ZonedDateTime lastLoginAt) {
-        this.lastLoginAt = lastLoginAt;
-    }
+        public ZonedDateTime getLastLoginAt() {
+            return lastLoginAt;
+        }
 
-    public int getStatus() {
-        return status;
-    }
+        public void setLastLoginAt(ZonedDateTime lastLoginAt) {
+            this.lastLoginAt = lastLoginAt;
+        }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-*/
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+    */
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();

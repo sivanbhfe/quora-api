@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,10 +15,7 @@ import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
 
-
-
-
-//Defines attributes and relationship for this table.
+//Schema to Define attributes and relationship for Question table.
 
 @Entity
 @Table(name = "question", schema = "public")
@@ -45,9 +44,13 @@ public class Question {
     @Column(name = "date")
     private ZonedDateTime date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
+
+
+    // generated getter and setter methods for question table
 
     public Integer getId() {
         return id;

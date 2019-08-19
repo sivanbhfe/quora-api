@@ -1,17 +1,20 @@
 package com.upgrad.quora.service.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
-
+//Schema for answer Table
 @Entity
 @Table(name = "answer", schema = "public")
 @NamedQueries(
         {
                 @NamedQuery(name = "getAnswerForUuId", query = "select ans from Answer ans where ans.uuid=:uuid"),
-                @NamedQuery(name = "getAnsersForQuestion", query = "select ans from Answer ans where ans.question.uuid=:uuid")
+                @NamedQuery(name = "getAnswersForQuestion", query = "select ans from Answer ans where ans.question.uuid=:uuid")
         }
 )
 public class Answer {
@@ -34,15 +37,17 @@ public class Answer {
     @Column(name = "date")
     private ZonedDateTime date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserEntity user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "question_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 
-
+    // Generated getter and setter methods for answer table
     public Integer getId() {
         return id;
     }
@@ -88,19 +93,14 @@ public class Answer {
     }
 
 
-
-
     public void setUser(UserEntity user) {
         this.user = user;
     }
 
 
-
-
     public Question getQuestion() {
         return question;
     }
-
 
 
     public void setQuestion(Question question) {
