@@ -45,7 +45,6 @@ public class QuestionController {
     @Autowired
     private UserProfileService userProfileService;
 
-
     /**
      * Rest Endpoint method implementation used for creating question for authorized user.
      * Only logged-in user is allowed to create a question.
@@ -61,6 +60,7 @@ public class QuestionController {
     public ResponseEntity<?> createQuestion(final QuestionRequest questionRequest,
                                             @RequestHeader final String authorization)
             throws AuthorizationFailedException {
+<<<<<<< HEAD
         UserAuthTokenEntity userAuthTokenEntity = authorizationService.isValidActiveAuthToken(authorization);
         UserEntity user = userAuthTokenEntity.getUser();
         Question question = new Question();
@@ -125,7 +125,6 @@ public class QuestionController {
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
     }
 
-
     //Rest Endpoint method implementation used for deleting question by question id.
     //Only logged-in user who is owner of the question or admin is allowed to delete a question
     /*
@@ -182,7 +181,6 @@ public class QuestionController {
      */
 
     public static final StringBuilder getUuIdString(List<Question> questionList, StringBuilder uuIdBuilder) {
-
         for (Question questionObject : questionList) {
             uuIdBuilder.append(questionObject.getUuid()).append(",");
         }
