@@ -130,47 +130,6 @@ public class UserAuthTokenEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    /*
-        public Long getVersion() {
-            return version;
-        }
-
-        public void setVersion(Long version) {
-            this.version = version;
-        }
-
-        public String getCreatedBy() {
-            return createdBy;
-        }
-
-        public void setCreatedBy(String createdBy) {
-            this.createdBy = createdBy;
-        }
-
-        public ZonedDateTime getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(ZonedDateTime createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getModifiedBy() {
-            return modifiedBy;
-        }
-
-        public void setModifiedBy(String modifiedBy) {
-            this.modifiedBy = modifiedBy;
-        }
-
-        public ZonedDateTime getModifiedAt() {
-            return modifiedAt;
-        }
-
-        public void setModifiedAt(ZonedDateTime modifiedAt) {
-            this.modifiedAt = modifiedAt;
-        }
-    */
     @Override
     public boolean equals(Object obj) {
         return new EqualsBuilder().append(this, obj).isEquals();

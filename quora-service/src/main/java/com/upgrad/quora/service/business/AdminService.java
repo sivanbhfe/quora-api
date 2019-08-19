@@ -6,6 +6,7 @@ import com.upgrad.quora.service.entity.UserAuthTokenEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
+import com.upgrad.quora.service.type.ActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class AdminService {
     @Transactional(propagation = Propagation.REQUIRED)
     public String deleteUser(final String userUuid, final String authorization) throws AuthorizationFailedException, UserNotFoundException {
         /*Incorporated changes as per the changed User Dao method isValidAuthTokenForAdmin() */
-        UserAuthTokenEntity authTokenEntity = userDao.isValidActiveAuthTokenForAdmin(authorization);
+        UserAuthTokenEntity authTokenEntity = userDao.isValidActiveAuthToken(authorization, ActionType.DELETE_USER);
         /*checking if user has signed in*/
         if (userDao.hasUserSignedIn(authorization)) {
             /*Checking if the user has signed out and accordingly throwing an exception*/

@@ -118,10 +118,9 @@ public class UserDao {
 
         }
     */
-    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
-    //Reason: Exception messages are slightly different
-    //This implementation for AdminController
-    public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String accessToken) throws AuthorizationFailedException {
+
+    /* Written separately for admin authorization. Then merged with isValidActiveAuthToken
+     public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String accessToken) throws AuthorizationFailedException {
         try {
             UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)
                     .setParameter("accessToken", accessToken).getSingleResult();
@@ -137,10 +136,9 @@ public class UserDao {
         }
 
     }
+    */
 
-    //Written isValidActiveAuthToken twice once for CommonController and once for AdminController
-    //Reason: Exception messages are slightly different
-    //This implementation for AdminController
+    //Written for all authorization calls for all controllers
     public UserAuthTokenEntity isValidActiveAuthToken(final String accessToken, Enum<ActionType> actionType) throws AuthorizationFailedException {
         try {
             UserAuthTokenEntity userAuthTokenEntity = entityManager.createNamedQuery("userByAccessToken", UserAuthTokenEntity.class)

@@ -20,44 +20,35 @@ public class AuthorizationService {
         return userDao.hasUserSignedIn(authorization);
     }
 
-    /* Created initial for validating access token later combined into other methods
-    //To check if the user has a valid acces token / access token exists and is valid
-    //Returns boolean based on 2 factors: The expires_at time is greater than current time and LogoutAt is null
+    /* Created initial for validating access token later combined into isValidActiveAuthToken
     public boolean isUserAccessTokenValid (final String authorization)  {
         return userDao.isUserAccessTokenValid(authorization);
     }
     */
 
-    //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
-    //Reason: Exception messages are slightly different
-    //This implementation for CommonController
+    //Written for all authorization calls for all controllers
     public UserAuthTokenEntity isValidActiveAuthToken(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException {
         return userDao.isValidActiveAuthToken(authorization, actionType);
-
     }
 
-    //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
-    //Reason: Exception messages are slightly different
-    //This implementation for AdminController
+    /* Authorization call for Admin. Written separately and then merged with isValidActiveAuthToken
     public UserAuthTokenEntity isValidActiveAuthTokenForAdmin(final String authorization) throws AuthorizationFailedException {
         return userDao.isValidActiveAuthTokenForAdmin(authorization);
-
     }
+   */
 
-    /*
-        //Written isValidActiveAuthToken thrice once for CommonController, AdminController & QuestionController
-        //Reason: Exception messages are slightly different
-        //This implementation for QuestionController
+    /* Method written separately for CommonController then merged with isValidActiveAuthToken
         public UserAuthTokenEntity isValidActiveAuthTokenForQuestion(final String authorization, Enum<ActionType> actionType) throws AuthorizationFailedException{
             return userDao.isValidActiveAuthTokenForQuestion(authorization,actionType);
 
         }
     */
+
     //To fetch UserAuthTokenEntity for particular acces token
+    //Written separately to avoid confusion wit other authorization functions
     public UserAuthTokenEntity fetchAuthTokenEntity(final String authorization) throws SignOutRestrictedException {
         final UserAuthTokenEntity fetchedUserAuthTokenEntity = userDao.getUserAuthToken(authorization);
         return fetchedUserAuthTokenEntity;
     }
-
 
 }
